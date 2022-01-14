@@ -1,0 +1,514 @@
+2021-03-11 10:39:09 INFO::Writing function arguments to log file
+2021-03-11 10:39:09 DEBUG::Function arguments
+2021-03-11 10:39:09 DEBUG::Output folder: 201119_nonorm_log_metab
+2021-03-11 10:39:09 DEBUG::Min Abundance: 0.000000
+2021-03-11 10:39:09 DEBUG::Min Prevalence: 0.100000
+2021-03-11 10:39:09 DEBUG::Normalization: NONE
+2021-03-11 10:39:09 DEBUG::Transform: LOG
+2021-03-11 10:39:09 DEBUG::Analysis method: LM
+2021-03-11 10:39:09 DEBUG::Max significance: 0.250000
+2021-03-11 10:39:09 DEBUG::Random effects:
+2021-03-11 10:39:09 DEBUG::Fixed effects: Cdiff_EIA
+2021-03-11 10:39:09 DEBUG::Correction method: BH
+2021-03-11 10:39:09 DEBUG::Standardize: TRUE
+2021-03-11 10:39:09 DEBUG::Cores: 1
+2021-03-11 10:39:09 INFO::Verifying options selected are valid
+2021-03-11 10:39:09 INFO::Determining format of input files
+2021-03-11 10:39:09 INFO::Input format is data samples as rows and metadata samples as rows
+2021-03-11 10:39:09 DEBUG::The following samples were found to have metadata but no features. They will be removed. 16228013405,14260007880,14262002618,14311004356,14318006288,15135000694,15160004262,15171001380,15258011032,15270002254,15280004184,15282011402,16009001682,16037008265,14245001719,15273007473,15118007777,15023008719,14294010108,14278005206,14253003459,14237009479
+2021-03-11 10:39:09 DEBUG::A total of 102 samples were found in both the data and metadata
+2021-03-11 10:39:09 DEBUG::Reordering data/metadata to use same sample ordering
+2021-03-11 10:39:09 INFO::Formula for fixed effects: expr ~  Cdiff_EIA
+2021-03-11 10:39:09 INFO::Filter data based on min abundance and min prevalence
+2021-03-11 10:39:09 INFO::Total samples in data: 102
+2021-03-11 10:39:09 INFO::Min samples required with min abundance for a feature not to be filtered: 10.200000
+2021-03-11 10:39:09 INFO::Total filtered features: 0
+2021-03-11 10:39:09 INFO::Filtered feature names from abundance and prevalence filtering:
+2021-03-11 10:39:09 INFO::Running selected normalization method: NONE
+2021-03-11 10:39:09 INFO::Total filtered features with variance filtering: 0
+2021-03-11 10:39:09 INFO::Filtered feature names from variance filtering:
+2021-03-11 10:39:09 INFO::Applying z-score to standardize continuous metadata
+2021-03-11 10:39:09 INFO::Running selected transform method: LOG
+2021-03-11 10:39:09 INFO::Running selected analysis method: LM
+2021-03-11 10:39:09 INFO::Fitting model to feature number 1, Metabolite.2
+2021-03-11 10:39:09 INFO::Fitting model to feature number 2, Metabolite.3
+2021-03-11 10:39:09 INFO::Fitting model to feature number 3, Metabolite.15
+2021-03-11 10:39:09 INFO::Fitting model to feature number 4, Metabolite.21
+2021-03-11 10:39:09 INFO::Fitting model to feature number 5, Metabolite.26
+2021-03-11 10:39:09 INFO::Fitting model to feature number 6, Metabolite.36
+2021-03-11 10:39:09 INFO::Fitting model to feature number 7, Metabolite.44
+2021-03-11 10:39:09 INFO::Fitting model to feature number 8, Metabolite.48
+2021-03-11 10:39:09 INFO::Fitting model to feature number 9, Metabolite.49
+2021-03-11 10:39:09 INFO::Fitting model to feature number 10, Metabolite.58
+2021-03-11 10:39:09 INFO::Fitting model to feature number 11, Metabolite.59
+2021-03-11 10:39:09 INFO::Fitting model to feature number 12, Metabolite.66
+2021-03-11 10:39:09 INFO::Fitting model to feature number 13, Metabolite.74
+2021-03-11 10:39:09 INFO::Fitting model to feature number 14, Metabolite.81
+2021-03-11 10:39:09 INFO::Fitting model to feature number 15, Metabolite.93
+2021-03-11 10:39:09 INFO::Fitting model to feature number 16, Metabolite.111
+2021-03-11 10:39:09 INFO::Fitting model to feature number 17, Metabolite.123
+2021-03-11 10:39:09 INFO::Fitting model to feature number 18, Metabolite.126
+2021-03-11 10:39:09 INFO::Fitting model to feature number 19, Metabolite.128
+2021-03-11 10:39:09 INFO::Fitting model to feature number 20, Metabolite.130
+2021-03-11 10:39:09 INFO::Fitting model to feature number 21, Metabolite.136
+2021-03-11 10:39:09 INFO::Fitting model to feature number 22, Metabolite.138
+2021-03-11 10:39:09 INFO::Fitting model to feature number 23, Metabolite.144
+2021-03-11 10:39:09 INFO::Fitting model to feature number 24, Metabolite.148
+2021-03-11 10:39:09 INFO::Fitting model to feature number 25, Metabolite.153
+2021-03-11 10:39:09 INFO::Fitting model to feature number 26, Metabolite.164
+2021-03-11 10:39:09 INFO::Fitting model to feature number 27, Metabolite.165
+2021-03-11 10:39:09 INFO::Fitting model to feature number 28, Metabolite.166
+2021-03-11 10:39:09 INFO::Fitting model to feature number 29, Metabolite.175
+2021-03-11 10:39:09 INFO::Fitting model to feature number 30, Metabolite.176
+2021-03-11 10:39:09 INFO::Fitting model to feature number 31, Metabolite.181
+2021-03-11 10:39:09 INFO::Fitting model to feature number 32, Metabolite.189
+2021-03-11 10:39:09 INFO::Fitting model to feature number 33, Metabolite.208
+2021-03-11 10:39:09 INFO::Fitting model to feature number 34, Metabolite.226
+2021-03-11 10:39:09 INFO::Fitting model to feature number 35, Metabolite.229
+2021-03-11 10:39:09 INFO::Fitting model to feature number 36, Metabolite.235
+2021-03-11 10:39:09 INFO::Fitting model to feature number 37, Metabolite.239
+2021-03-11 10:39:09 INFO::Fitting model to feature number 38, Metabolite.250
+2021-03-11 10:39:09 INFO::Fitting model to feature number 39, Metabolite.251
+2021-03-11 10:39:09 INFO::Fitting model to feature number 40, Metabolite.256
+2021-03-11 10:39:09 INFO::Fitting model to feature number 41, Metabolite.265
+2021-03-11 10:39:09 INFO::Fitting model to feature number 42, Metabolite.277
+2021-03-11 10:39:09 INFO::Fitting model to feature number 43, Metabolite.280
+2021-03-11 10:39:09 INFO::Fitting model to feature number 44, Metabolite.282
+2021-03-11 10:39:09 INFO::Fitting model to feature number 45, Metabolite.283
+2021-03-11 10:39:09 INFO::Fitting model to feature number 46, Metabolite.286
+2021-03-11 10:39:09 INFO::Fitting model to feature number 47, Metabolite.289
+2021-03-11 10:39:09 INFO::Fitting model to feature number 48, Metabolite.291
+2021-03-11 10:39:09 INFO::Fitting model to feature number 49, Metabolite.304
+2021-03-11 10:39:09 INFO::Fitting model to feature number 50, Metabolite.312
+2021-03-11 10:39:09 INFO::Fitting model to feature number 51, Metabolite.326
+2021-03-11 10:39:09 INFO::Fitting model to feature number 52, Metabolite.343
+2021-03-11 10:39:09 INFO::Fitting model to feature number 53, Metabolite.378
+2021-03-11 10:39:09 INFO::Fitting model to feature number 54, Metabolite.379
+2021-03-11 10:39:09 INFO::Fitting model to feature number 55, Metabolite.380
+2021-03-11 10:39:09 INFO::Fitting model to feature number 56, Metabolite.381
+2021-03-11 10:39:09 INFO::Fitting model to feature number 57, Metabolite.382
+2021-03-11 10:39:09 INFO::Fitting model to feature number 58, Metabolite.384
+2021-03-11 10:39:09 INFO::Fitting model to feature number 59, Metabolite.385
+2021-03-11 10:39:09 INFO::Fitting model to feature number 60, Metabolite.386
+2021-03-11 10:39:09 INFO::Fitting model to feature number 61, Metabolite.387
+2021-03-11 10:39:09 INFO::Fitting model to feature number 62, Metabolite.391
+2021-03-11 10:39:09 INFO::Fitting model to feature number 63, Metabolite.396
+2021-03-11 10:39:09 INFO::Fitting model to feature number 64, Metabolite.397
+2021-03-11 10:39:09 INFO::Fitting model to feature number 65, Metabolite.399
+2021-03-11 10:39:09 INFO::Fitting model to feature number 66, Metabolite.401
+2021-03-11 10:39:09 INFO::Fitting model to feature number 67, Metabolite.407
+2021-03-11 10:39:09 INFO::Fitting model to feature number 68, Metabolite.412
+2021-03-11 10:39:09 INFO::Fitting model to feature number 69, Metabolite.414
+2021-03-11 10:39:09 INFO::Fitting model to feature number 70, Metabolite.421
+2021-03-11 10:39:09 INFO::Fitting model to feature number 71, Metabolite.427
+2021-03-11 10:39:09 INFO::Fitting model to feature number 72, Metabolite.434
+2021-03-11 10:39:09 INFO::Fitting model to feature number 73, Metabolite.437
+2021-03-11 10:39:09 INFO::Fitting model to feature number 74, Metabolite.438
+2021-03-11 10:39:09 INFO::Fitting model to feature number 75, Metabolite.450
+2021-03-11 10:39:09 INFO::Fitting model to feature number 76, Metabolite.454
+2021-03-11 10:39:09 INFO::Fitting model to feature number 77, Metabolite.475
+2021-03-11 10:39:09 INFO::Fitting model to feature number 78, Metabolite.477
+2021-03-11 10:39:09 INFO::Fitting model to feature number 79, Metabolite.478
+2021-03-11 10:39:09 INFO::Fitting model to feature number 80, Metabolite.489
+2021-03-11 10:39:09 INFO::Fitting model to feature number 81, Metabolite.490
+2021-03-11 10:39:09 INFO::Fitting model to feature number 82, Metabolite.491
+2021-03-11 10:39:09 INFO::Fitting model to feature number 83, Metabolite.492
+2021-03-11 10:39:09 INFO::Fitting model to feature number 84, Metabolite.497
+2021-03-11 10:39:09 INFO::Fitting model to feature number 85, Metabolite.509
+2021-03-11 10:39:09 INFO::Fitting model to feature number 86, Metabolite.510
+2021-03-11 10:39:09 INFO::Fitting model to feature number 87, Metabolite.515
+2021-03-11 10:39:09 INFO::Fitting model to feature number 88, Metabolite.541
+2021-03-11 10:39:09 INFO::Fitting model to feature number 89, Metabolite.545
+2021-03-11 10:39:09 INFO::Fitting model to feature number 90, Metabolite.553
+2021-03-11 10:39:09 INFO::Fitting model to feature number 91, Metabolite.555
+2021-03-11 10:39:10 INFO::Fitting model to feature number 92, Metabolite.557
+2021-03-11 10:39:10 INFO::Fitting model to feature number 93, Metabolite.559
+2021-03-11 10:39:10 INFO::Fitting model to feature number 94, Metabolite.564
+2021-03-11 10:39:10 INFO::Fitting model to feature number 95, Metabolite.565
+2021-03-11 10:39:10 INFO::Fitting model to feature number 96, Metabolite.567
+2021-03-11 10:39:10 INFO::Fitting model to feature number 97, Metabolite.569
+2021-03-11 10:39:10 INFO::Fitting model to feature number 98, Metabolite.573
+2021-03-11 10:39:10 INFO::Fitting model to feature number 99, Metabolite.577
+2021-03-11 10:39:10 INFO::Fitting model to feature number 100, Metabolite.578
+2021-03-11 10:39:10 INFO::Fitting model to feature number 101, Metabolite.581
+2021-03-11 10:39:10 INFO::Fitting model to feature number 102, Metabolite.585
+2021-03-11 10:39:10 INFO::Fitting model to feature number 103, Metabolite.586
+2021-03-11 10:39:10 INFO::Fitting model to feature number 104, Metabolite.591
+2021-03-11 10:39:10 INFO::Fitting model to feature number 105, Metabolite.593
+2021-03-11 10:39:10 INFO::Fitting model to feature number 106, Metabolite.601
+2021-03-11 10:39:10 INFO::Fitting model to feature number 107, Metabolite.603
+2021-03-11 10:39:10 INFO::Fitting model to feature number 108, Metabolite.606
+2021-03-11 10:39:10 INFO::Fitting model to feature number 109, Metabolite.608
+2021-03-11 10:39:10 INFO::Fitting model to feature number 110, Metabolite.611
+2021-03-11 10:39:10 INFO::Fitting model to feature number 111, Metabolite.613
+2021-03-11 10:39:10 INFO::Fitting model to feature number 112, Metabolite.614
+2021-03-11 10:39:10 INFO::Fitting model to feature number 113, Metabolite.618
+2021-03-11 10:39:10 INFO::Fitting model to feature number 114, Metabolite.619
+2021-03-11 10:39:10 INFO::Fitting model to feature number 115, Metabolite.622
+2021-03-11 10:39:10 INFO::Fitting model to feature number 116, Metabolite.624
+2021-03-11 10:39:10 INFO::Fitting model to feature number 117, Metabolite.627
+2021-03-11 10:39:10 INFO::Fitting model to feature number 118, Metabolite.631
+2021-03-11 10:39:10 INFO::Fitting model to feature number 119, Metabolite.642
+2021-03-11 10:39:10 INFO::Fitting model to feature number 120, Metabolite.646
+2021-03-11 10:39:10 INFO::Fitting model to feature number 121, Metabolite.649
+2021-03-11 10:39:10 INFO::Fitting model to feature number 122, Metabolite.650
+2021-03-11 10:39:10 INFO::Fitting model to feature number 123, Metabolite.651
+2021-03-11 10:39:10 INFO::Fitting model to feature number 124, Metabolite.664
+2021-03-11 10:39:10 INFO::Fitting model to feature number 125, Metabolite.667
+2021-03-11 10:39:10 INFO::Fitting model to feature number 126, Metabolite.669
+2021-03-11 10:39:10 INFO::Fitting model to feature number 127, Metabolite.671
+2021-03-11 10:39:10 INFO::Fitting model to feature number 128, Metabolite.675
+2021-03-11 10:39:10 INFO::Fitting model to feature number 129, Metabolite.676
+2021-03-11 10:39:10 INFO::Fitting model to feature number 130, Metabolite.677
+2021-03-11 10:39:10 INFO::Fitting model to feature number 131, Metabolite.682
+2021-03-11 10:39:10 INFO::Fitting model to feature number 132, Metabolite.683
+2021-03-11 10:39:10 INFO::Fitting model to feature number 133, Metabolite.691
+2021-03-11 10:39:10 INFO::Fitting model to feature number 134, Metabolite.695
+2021-03-11 10:39:10 INFO::Fitting model to feature number 135, Metabolite.708
+2021-03-11 10:39:10 INFO::Fitting model to feature number 136, Metabolite.723
+2021-03-11 10:39:10 INFO::Fitting model to feature number 137, Metabolite.724
+2021-03-11 10:39:10 INFO::Fitting model to feature number 138, Metabolite.725
+2021-03-11 10:39:10 INFO::Fitting model to feature number 139, Metabolite.744
+2021-03-11 10:39:10 INFO::Fitting model to feature number 140, Metabolite.745
+2021-03-11 10:39:10 INFO::Fitting model to feature number 141, Metabolite.746
+2021-03-11 10:39:10 INFO::Fitting model to feature number 142, Metabolite.758
+2021-03-11 10:39:10 INFO::Fitting model to feature number 143, Metabolite.778
+2021-03-11 10:39:10 INFO::Fitting model to feature number 144, Metabolite.787
+2021-03-11 10:39:10 INFO::Fitting model to feature number 145, Metabolite.800
+2021-03-11 10:39:10 INFO::Fitting model to feature number 146, Metabolite.812
+2021-03-11 10:39:10 INFO::Fitting model to feature number 147, Metabolite.841
+2021-03-11 10:39:10 INFO::Fitting model to feature number 148, Metabolite.843
+2021-03-11 10:39:10 INFO::Fitting model to feature number 149, Metabolite.845
+2021-03-11 10:39:10 INFO::Fitting model to feature number 150, Metabolite.846
+2021-03-11 10:39:10 INFO::Fitting model to feature number 151, Metabolite.859
+2021-03-11 10:39:10 INFO::Fitting model to feature number 152, Metabolite.860
+2021-03-11 10:39:10 INFO::Fitting model to feature number 153, Metabolite.863
+2021-03-11 10:39:10 INFO::Fitting model to feature number 154, Metabolite.864
+2021-03-11 10:39:10 INFO::Fitting model to feature number 155, Metabolite.866
+2021-03-11 10:39:10 INFO::Fitting model to feature number 156, Metabolite.870
+2021-03-11 10:39:10 INFO::Fitting model to feature number 157, Metabolite.871
+2021-03-11 10:39:10 INFO::Fitting model to feature number 158, Metabolite.876
+2021-03-11 10:39:10 INFO::Fitting model to feature number 159, Metabolite.878
+2021-03-11 10:39:10 INFO::Fitting model to feature number 160, Metabolite.880
+2021-03-11 10:39:10 INFO::Fitting model to feature number 161, Metabolite.881
+2021-03-11 10:39:10 INFO::Fitting model to feature number 162, Metabolite.882
+2021-03-11 10:39:10 INFO::Fitting model to feature number 163, Metabolite.883
+2021-03-11 10:39:10 INFO::Fitting model to feature number 164, Metabolite.885
+2021-03-11 10:39:10 INFO::Fitting model to feature number 165, Metabolite.886
+2021-03-11 10:39:10 INFO::Fitting model to feature number 166, Metabolite.894
+2021-03-11 10:39:10 INFO::Fitting model to feature number 167, Metabolite.918
+2021-03-11 10:39:10 INFO::Fitting model to feature number 168, Metabolite.920
+2021-03-11 10:39:10 INFO::Fitting model to feature number 169, Metabolite.923
+2021-03-11 10:39:10 INFO::Fitting model to feature number 170, Metabolite.926
+2021-03-11 10:39:10 INFO::Fitting model to feature number 171, Metabolite.930
+2021-03-11 10:39:10 INFO::Fitting model to feature number 172, Metabolite.946
+2021-03-11 10:39:10 INFO::Fitting model to feature number 173, Metabolite.949
+2021-03-11 10:39:10 INFO::Fitting model to feature number 174, Metabolite.953
+2021-03-11 10:39:10 INFO::Fitting model to feature number 175, Metabolite.956
+2021-03-11 10:39:10 INFO::Fitting model to feature number 176, Metabolite.957
+2021-03-11 10:39:10 INFO::Fitting model to feature number 177, Metabolite.959
+2021-03-11 10:39:10 INFO::Fitting model to feature number 178, Metabolite.962
+2021-03-11 10:39:10 INFO::Fitting model to feature number 179, Metabolite.965
+2021-03-11 10:39:10 INFO::Fitting model to feature number 180, Metabolite.966
+2021-03-11 10:39:10 INFO::Fitting model to feature number 181, Metabolite.967
+2021-03-11 10:39:10 INFO::Fitting model to feature number 182, Metabolite.972
+2021-03-11 10:39:10 INFO::Fitting model to feature number 183, Metabolite.974
+2021-03-11 10:39:10 INFO::Fitting model to feature number 184, Metabolite.976
+2021-03-11 10:39:10 INFO::Fitting model to feature number 185, Metabolite.978
+2021-03-11 10:39:10 INFO::Fitting model to feature number 186, Metabolite.980
+2021-03-11 10:39:10 INFO::Fitting model to feature number 187, Metabolite.981
+2021-03-11 10:39:10 INFO::Fitting model to feature number 188, Metabolite.999
+2021-03-11 10:39:10 INFO::Fitting model to feature number 189, Metabolite.1045
+2021-03-11 10:39:10 INFO::Fitting model to feature number 190, Metabolite.1066
+2021-03-11 10:39:10 INFO::Fitting model to feature number 191, Metabolite.1075
+2021-03-11 10:39:10 INFO::Fitting model to feature number 192, Metabolite.1077
+2021-03-11 10:39:10 INFO::Fitting model to feature number 193, Metabolite.1088
+2021-03-11 10:39:10 INFO::Fitting model to feature number 194, Metabolite.1092
+2021-03-11 10:39:10 INFO::Fitting model to feature number 195, Metabolite.1104
+2021-03-11 10:39:10 INFO::Fitting model to feature number 196, Metabolite.1110
+2021-03-11 10:39:10 INFO::Fitting model to feature number 197, Metabolite.1112
+2021-03-11 10:39:10 INFO::Fitting model to feature number 198, Metabolite.1117
+2021-03-11 10:39:10 INFO::Fitting model to feature number 199, Metabolite.1127
+2021-03-11 10:39:10 INFO::Fitting model to feature number 200, Metabolite.1128
+2021-03-11 10:39:10 INFO::Fitting model to feature number 201, Metabolite.1130
+2021-03-11 10:39:10 INFO::Fitting model to feature number 202, Metabolite.1133
+2021-03-11 10:39:10 INFO::Fitting model to feature number 203, Metabolite.1134
+2021-03-11 10:39:10 INFO::Fitting model to feature number 204, Metabolite.1135
+2021-03-11 10:39:10 INFO::Fitting model to feature number 205, Metabolite.1136
+2021-03-11 10:39:10 INFO::Fitting model to feature number 206, Metabolite.1137
+2021-03-11 10:39:10 INFO::Fitting model to feature number 207, Metabolite.1143
+2021-03-11 10:39:10 INFO::Fitting model to feature number 208, Metabolite.1148
+2021-03-11 10:39:10 INFO::Fitting model to feature number 209, Metabolite.1149
+2021-03-11 10:39:10 INFO::Fitting model to feature number 210, Metabolite.1150
+2021-03-11 10:39:10 INFO::Fitting model to feature number 211, Metabolite.1154
+2021-03-11 10:39:10 INFO::Fitting model to feature number 212, Metabolite.1155
+2021-03-11 10:39:10 INFO::Fitting model to feature number 213, Metabolite.1156
+2021-03-11 10:39:10 INFO::Fitting model to feature number 214, Metabolite.1157
+2021-03-11 10:39:10 INFO::Fitting model to feature number 215, Metabolite.1159
+2021-03-11 10:39:10 INFO::Fitting model to feature number 216, Metabolite.1161
+2021-03-11 10:39:10 INFO::Fitting model to feature number 217, Metabolite.1164
+2021-03-11 10:39:10 INFO::Fitting model to feature number 218, Metabolite.1165
+2021-03-11 10:39:10 INFO::Fitting model to feature number 219, Metabolite.1167
+2021-03-11 10:39:10 INFO::Fitting model to feature number 220, Metabolite.1174
+2021-03-11 10:39:10 INFO::Fitting model to feature number 221, Metabolite.1175
+2021-03-11 10:39:10 INFO::Fitting model to feature number 222, Metabolite.1176
+2021-03-11 10:39:10 INFO::Fitting model to feature number 223, Metabolite.1179
+2021-03-11 10:39:10 INFO::Fitting model to feature number 224, Metabolite.1180
+2021-03-11 10:39:11 INFO::Fitting model to feature number 225, Metabolite.1184
+2021-03-11 10:39:11 INFO::Fitting model to feature number 226, Metabolite.1195
+2021-03-11 10:39:11 INFO::Fitting model to feature number 227, Metabolite.1197
+2021-03-11 10:39:11 INFO::Fitting model to feature number 228, Metabolite.1198
+2021-03-11 10:39:11 INFO::Fitting model to feature number 229, Metabolite.1204
+2021-03-11 10:39:11 INFO::Fitting model to feature number 230, Metabolite.1206
+2021-03-11 10:39:11 INFO::Fitting model to feature number 231, Metabolite.1216
+2021-03-11 10:39:11 INFO::Fitting model to feature number 232, Metabolite.1218
+2021-03-11 10:39:11 INFO::Fitting model to feature number 233, Metabolite.1220
+2021-03-11 10:39:11 INFO::Fitting model to feature number 234, Metabolite.1223
+2021-03-11 10:39:11 INFO::Fitting model to feature number 235, Metabolite.1229
+2021-03-11 10:39:11 INFO::Fitting model to feature number 236, Metabolite.1258
+2021-03-11 10:39:11 INFO::Fitting model to feature number 237, Metabolite.1259
+2021-03-11 10:39:11 INFO::Fitting model to feature number 238, Metabolite.1262
+2021-03-11 10:39:11 INFO::Fitting model to feature number 239, Metabolite.1267
+2021-03-11 10:39:11 INFO::Fitting model to feature number 240, Metabolite.1273
+2021-03-11 10:39:11 INFO::Fitting model to feature number 241, Metabolite.1290
+2021-03-11 10:39:11 INFO::Fitting model to feature number 242, Metabolite.1293
+2021-03-11 10:39:11 INFO::Fitting model to feature number 243, Metabolite.1304
+2021-03-11 10:39:11 INFO::Fitting model to feature number 244, Metabolite.1308
+2021-03-11 10:39:11 INFO::Fitting model to feature number 245, Metabolite.1310
+2021-03-11 10:39:11 INFO::Fitting model to feature number 246, Metabolite.1317
+2021-03-11 10:39:11 INFO::Fitting model to feature number 247, Metabolite.1351
+2021-03-11 10:39:11 INFO::Fitting model to feature number 248, Metabolite.1352
+2021-03-11 10:39:11 INFO::Fitting model to feature number 249, Metabolite.1361
+2021-03-11 10:39:11 INFO::Fitting model to feature number 250, Metabolite.1364
+2021-03-11 10:39:11 INFO::Fitting model to feature number 251, Metabolite.1365
+2021-03-11 10:39:11 INFO::Fitting model to feature number 252, Metabolite.1385
+2021-03-11 10:39:11 INFO::Fitting model to feature number 253, Metabolite.1390
+2021-03-11 10:39:11 INFO::Fitting model to feature number 254, Metabolite.1396
+2021-03-11 10:39:11 INFO::Fitting model to feature number 255, Metabolite.1398
+2021-03-11 10:39:11 INFO::Fitting model to feature number 256, Metabolite.1413
+2021-03-11 10:39:11 INFO::Fitting model to feature number 257, Metabolite.1419
+2021-03-11 10:39:11 INFO::Fitting model to feature number 258, Metabolite.1427
+2021-03-11 10:39:11 INFO::Fitting model to feature number 259, Metabolite.1431
+2021-03-11 10:39:11 INFO::Fitting model to feature number 260, Metabolite.1434
+2021-03-11 10:39:11 INFO::Fitting model to feature number 261, Metabolite.1437
+2021-03-11 10:39:11 INFO::Fitting model to feature number 262, Metabolite.1459
+2021-03-11 10:39:11 INFO::Fitting model to feature number 263, Metabolite.1460
+2021-03-11 10:39:11 INFO::Fitting model to feature number 264, Metabolite.1463
+2021-03-11 10:39:11 INFO::Fitting model to feature number 265, Metabolite.1469
+2021-03-11 10:39:11 INFO::Fitting model to feature number 266, Metabolite.1471
+2021-03-11 10:39:11 INFO::Fitting model to feature number 267, Metabolite.1477
+2021-03-11 10:39:11 INFO::Fitting model to feature number 268, Metabolite.1478
+2021-03-11 10:39:11 INFO::Fitting model to feature number 269, Metabolite.1483
+2021-03-11 10:39:11 INFO::Fitting model to feature number 270, Metabolite.1496
+2021-03-11 10:39:11 INFO::Fitting model to feature number 271, Metabolite.1498
+2021-03-11 10:39:11 INFO::Fitting model to feature number 272, Metabolite.1516
+2021-03-11 10:39:11 INFO::Fitting model to feature number 273, Metabolite.1527
+2021-03-11 10:39:11 INFO::Fitting model to feature number 274, Metabolite.1531
+2021-03-11 10:39:11 INFO::Fitting model to feature number 275, Metabolite.1532
+2021-03-11 10:39:11 INFO::Fitting model to feature number 276, Metabolite.1536
+2021-03-11 10:39:11 INFO::Fitting model to feature number 277, Metabolite.1538
+2021-03-11 10:39:11 INFO::Fitting model to feature number 278, Metabolite.1580
+2021-03-11 10:39:11 INFO::Fitting model to feature number 279, Metabolite.1601
+2021-03-11 10:39:11 INFO::Fitting model to feature number 280, Metabolite.1618
+2021-03-11 10:39:11 INFO::Fitting model to feature number 281, Metabolite.1627
+2021-03-11 10:39:11 INFO::Fitting model to feature number 282, Metabolite.1643
+2021-03-11 10:39:11 INFO::Fitting model to feature number 283, Metabolite.1665
+2021-03-11 10:39:11 INFO::Fitting model to feature number 284, Metabolite.1670
+2021-03-11 10:39:11 INFO::Fitting model to feature number 285, Metabolite.1672
+2021-03-11 10:39:11 INFO::Fitting model to feature number 286, Metabolite.1681
+2021-03-11 10:39:11 INFO::Fitting model to feature number 287, Metabolite.1702
+2021-03-11 10:39:11 INFO::Fitting model to feature number 288, Metabolite.1726
+2021-03-11 10:39:11 INFO::Fitting model to feature number 289, Metabolite.1736
+2021-03-11 10:39:11 INFO::Fitting model to feature number 290, Metabolite.1774
+2021-03-11 10:39:11 INFO::Fitting model to feature number 291, Metabolite.1800
+2021-03-11 10:39:11 INFO::Fitting model to feature number 292, Metabolite.1802
+2021-03-11 10:39:11 INFO::Fitting model to feature number 293, Metabolite.1804
+2021-03-11 10:39:11 INFO::Fitting model to feature number 294, Metabolite.1826
+2021-03-11 10:39:11 INFO::Fitting model to feature number 295, Metabolite.1827
+2021-03-11 10:39:11 INFO::Fitting model to feature number 296, Metabolite.1841
+2021-03-11 10:39:11 INFO::Fitting model to feature number 297, Metabolite.1886
+2021-03-11 10:39:11 INFO::Fitting model to feature number 298, Metabolite.1909
+2021-03-11 10:39:11 INFO::Fitting model to feature number 299, Metabolite.1914
+2021-03-11 10:39:11 INFO::Fitting model to feature number 300, Metabolite.1917
+2021-03-11 10:39:11 INFO::Fitting model to feature number 301, Metabolite.1945
+2021-03-11 10:39:11 INFO::Fitting model to feature number 302, Metabolite.1946
+2021-03-11 10:39:11 INFO::Fitting model to feature number 303, Metabolite.1996
+2021-03-11 10:39:11 INFO::Fitting model to feature number 304, Metabolite.2011
+2021-03-11 10:39:11 INFO::Fitting model to feature number 305, Metabolite.2021
+2021-03-11 10:39:11 INFO::Fitting model to feature number 306, Metabolite.2029
+2021-03-11 10:39:11 INFO::Fitting model to feature number 307, Metabolite.2050
+2021-03-11 10:39:11 INFO::Fitting model to feature number 308, Metabolite.2054
+2021-03-11 10:39:11 INFO::Fitting model to feature number 309, Metabolite.2056
+2021-03-11 10:39:11 INFO::Fitting model to feature number 310, Metabolite.2057
+2021-03-11 10:39:11 INFO::Fitting model to feature number 311, Metabolite.2059
+2021-03-11 10:39:11 INFO::Fitting model to feature number 312, Metabolite.2060
+2021-03-11 10:39:11 INFO::Fitting model to feature number 313, Metabolite.2062
+2021-03-11 10:39:11 INFO::Fitting model to feature number 314, Metabolite.2063
+2021-03-11 10:39:11 INFO::Fitting model to feature number 315, Metabolite.2066
+2021-03-11 10:39:11 INFO::Fitting model to feature number 316, Metabolite.2068
+2021-03-11 10:39:11 INFO::Fitting model to feature number 317, Metabolite.2069
+2021-03-11 10:39:11 INFO::Fitting model to feature number 318, Metabolite.2073
+2021-03-11 10:39:11 INFO::Fitting model to feature number 319, Metabolite.2075
+2021-03-11 10:39:11 INFO::Fitting model to feature number 320, Metabolite.2076
+2021-03-11 10:39:11 INFO::Fitting model to feature number 321, Metabolite.2080
+2021-03-11 10:39:11 INFO::Fitting model to feature number 322, Metabolite.2082
+2021-03-11 10:39:11 INFO::Fitting model to feature number 323, Metabolite.2083
+2021-03-11 10:39:11 INFO::Fitting model to feature number 324, Metabolite.2087
+2021-03-11 10:39:11 INFO::Fitting model to feature number 325, Metabolite.2092
+2021-03-11 10:39:11 INFO::Fitting model to feature number 326, Metabolite.2094
+2021-03-11 10:39:11 INFO::Fitting model to feature number 327, Metabolite.2095
+2021-03-11 10:39:11 INFO::Fitting model to feature number 328, Metabolite.2097
+2021-03-11 10:39:11 INFO::Fitting model to feature number 329, Metabolite.2101
+2021-03-11 10:39:11 INFO::Fitting model to feature number 330, Metabolite.2103
+2021-03-11 10:39:11 INFO::Fitting model to feature number 331, Metabolite.2111
+2021-03-11 10:39:11 INFO::Fitting model to feature number 332, Metabolite.2115
+2021-03-11 10:39:11 INFO::Fitting model to feature number 333, Metabolite.2116
+2021-03-11 10:39:11 INFO::Fitting model to feature number 334, Metabolite.2117
+2021-03-11 10:39:11 INFO::Fitting model to feature number 335, Metabolite.2119
+2021-03-11 10:39:11 INFO::Fitting model to feature number 336, Metabolite.2121
+2021-03-11 10:39:11 INFO::Fitting model to feature number 337, Metabolite.2122
+2021-03-11 10:39:11 INFO::Fitting model to feature number 338, Metabolite.2123
+2021-03-11 10:39:11 INFO::Fitting model to feature number 339, Metabolite.2126
+2021-03-11 10:39:11 INFO::Fitting model to feature number 340, Metabolite.2134
+2021-03-11 10:39:11 INFO::Fitting model to feature number 341, Metabolite.2135
+2021-03-11 10:39:11 INFO::Fitting model to feature number 342, Metabolite.2137
+2021-03-11 10:39:11 INFO::Fitting model to feature number 343, Metabolite.2139
+2021-03-11 10:39:11 INFO::Fitting model to feature number 344, Metabolite.2141
+2021-03-11 10:39:11 INFO::Fitting model to feature number 345, Metabolite.2145
+2021-03-11 10:39:11 INFO::Fitting model to feature number 346, Metabolite.2146
+2021-03-11 10:39:12 INFO::Fitting model to feature number 347, Metabolite.2150
+2021-03-11 10:39:12 INFO::Fitting model to feature number 348, Metabolite.2152
+2021-03-11 10:39:12 INFO::Fitting model to feature number 349, Metabolite.2154
+2021-03-11 10:39:12 INFO::Fitting model to feature number 350, Metabolite.2156
+2021-03-11 10:39:12 INFO::Fitting model to feature number 351, Metabolite.2158
+2021-03-11 10:39:12 INFO::Fitting model to feature number 352, Metabolite.2159
+2021-03-11 10:39:12 INFO::Fitting model to feature number 353, Metabolite.2163
+2021-03-11 10:39:12 INFO::Fitting model to feature number 354, Metabolite.2165
+2021-03-11 10:39:12 INFO::Fitting model to feature number 355, Metabolite.2167
+2021-03-11 10:39:12 INFO::Fitting model to feature number 356, Metabolite.2169
+2021-03-11 10:39:12 INFO::Fitting model to feature number 357, Metabolite.2170
+2021-03-11 10:39:12 INFO::Fitting model to feature number 358, Metabolite.2171
+2021-03-11 10:39:12 INFO::Fitting model to feature number 359, Metabolite.2172
+2021-03-11 10:39:12 INFO::Fitting model to feature number 360, Metabolite.2173
+2021-03-11 10:39:12 INFO::Fitting model to feature number 361, Metabolite.2181
+2021-03-11 10:39:12 INFO::Fitting model to feature number 362, Metabolite.2182
+2021-03-11 10:39:12 INFO::Fitting model to feature number 363, Metabolite.2185
+2021-03-11 10:39:12 INFO::Fitting model to feature number 364, Metabolite.2186
+2021-03-11 10:39:12 INFO::Fitting model to feature number 365, Metabolite.2188
+2021-03-11 10:39:12 INFO::Fitting model to feature number 366, Metabolite.2191
+2021-03-11 10:39:12 INFO::Fitting model to feature number 367, Metabolite.2193
+2021-03-11 10:39:12 INFO::Fitting model to feature number 368, Metabolite.2196
+2021-03-11 10:39:12 INFO::Fitting model to feature number 369, Metabolite.2198
+2021-03-11 10:39:12 INFO::Fitting model to feature number 370, Metabolite.2202
+2021-03-11 10:39:12 INFO::Fitting model to feature number 371, Metabolite.2203
+2021-03-11 10:39:12 INFO::Fitting model to feature number 372, Metabolite.2206
+2021-03-11 10:39:12 INFO::Fitting model to feature number 373, Metabolite.2207
+2021-03-11 10:39:12 INFO::Fitting model to feature number 374, Metabolite.2209
+2021-03-11 10:39:12 INFO::Fitting model to feature number 375, Metabolite.2210
+2021-03-11 10:39:12 INFO::Fitting model to feature number 376, Metabolite.2218
+2021-03-11 10:39:12 INFO::Fitting model to feature number 377, Metabolite.2220
+2021-03-11 10:39:12 INFO::Fitting model to feature number 378, Metabolite.2221
+2021-03-11 10:39:12 INFO::Fitting model to feature number 379, Metabolite.2222
+2021-03-11 10:39:12 INFO::Fitting model to feature number 380, Metabolite.2223
+2021-03-11 10:39:12 INFO::Fitting model to feature number 381, Metabolite.2228
+2021-03-11 10:39:12 INFO::Fitting model to feature number 382, Metabolite.2229
+2021-03-11 10:39:12 INFO::Fitting model to feature number 383, Metabolite.2233
+2021-03-11 10:39:12 INFO::Fitting model to feature number 384, Metabolite.2237
+2021-03-11 10:39:12 INFO::Fitting model to feature number 385, Metabolite.2239
+2021-03-11 10:39:12 INFO::Fitting model to feature number 386, Metabolite.2241
+2021-03-11 10:39:12 INFO::Fitting model to feature number 387, Metabolite.2245
+2021-03-11 10:39:12 INFO::Fitting model to feature number 388, Metabolite.2246
+2021-03-11 10:39:12 INFO::Fitting model to feature number 389, Metabolite.2248
+2021-03-11 10:39:12 INFO::Fitting model to feature number 390, Metabolite.2249
+2021-03-11 10:39:12 INFO::Fitting model to feature number 391, Metabolite.2251
+2021-03-11 10:39:12 INFO::Fitting model to feature number 392, Metabolite.2256
+2021-03-11 10:39:12 INFO::Fitting model to feature number 393, Metabolite.2257
+2021-03-11 10:39:12 INFO::Fitting model to feature number 394, Metabolite.2260
+2021-03-11 10:39:12 INFO::Fitting model to feature number 395, Metabolite.2262
+2021-03-11 10:39:12 INFO::Fitting model to feature number 396, Metabolite.2264
+2021-03-11 10:39:12 INFO::Fitting model to feature number 397, Metabolite.2267
+2021-03-11 10:39:12 INFO::Fitting model to feature number 398, Metabolite.2268
+2021-03-11 10:39:12 INFO::Fitting model to feature number 399, Metabolite.2269
+2021-03-11 10:39:12 INFO::Fitting model to feature number 400, Metabolite.2272
+2021-03-11 10:39:12 INFO::Fitting model to feature number 401, Metabolite.2311
+2021-03-11 10:39:12 INFO::Fitting model to feature number 402, Metabolite.2313
+2021-03-11 10:39:12 INFO::Fitting model to feature number 403, Metabolite.2322
+2021-03-11 10:39:12 INFO::Fitting model to feature number 404, Metabolite.2324
+2021-03-11 10:39:12 INFO::Fitting model to feature number 405, Metabolite.2338
+2021-03-11 10:39:12 INFO::Fitting model to feature number 406, Metabolite.2345
+2021-03-11 10:39:12 INFO::Fitting model to feature number 407, Metabolite.2347
+2021-03-11 10:39:12 INFO::Fitting model to feature number 408, Metabolite.2350
+2021-03-11 10:39:12 INFO::Fitting model to feature number 409, Metabolite.2353
+2021-03-11 10:39:12 INFO::Fitting model to feature number 410, Metabolite.2358
+2021-03-11 10:39:12 INFO::Fitting model to feature number 411, Metabolite.2362
+2021-03-11 10:39:12 INFO::Fitting model to feature number 412, Metabolite.2366
+2021-03-11 10:39:12 INFO::Fitting model to feature number 413, Metabolite.2368
+2021-03-11 10:39:12 INFO::Fitting model to feature number 414, Metabolite.2369
+2021-03-11 10:39:12 INFO::Fitting model to feature number 415, Metabolite.2370
+2021-03-11 10:39:12 INFO::Fitting model to feature number 416, Metabolite.2375
+2021-03-11 10:39:12 INFO::Fitting model to feature number 417, Metabolite.2379
+2021-03-11 10:39:12 INFO::Fitting model to feature number 418, Metabolite.2380
+2021-03-11 10:39:12 INFO::Fitting model to feature number 419, Metabolite.2382
+2021-03-11 10:39:12 INFO::Fitting model to feature number 420, Metabolite.2384
+2021-03-11 10:39:12 INFO::Fitting model to feature number 421, Metabolite.2385
+2021-03-11 10:39:12 INFO::Fitting model to feature number 422, Metabolite.2386
+2021-03-11 10:39:12 INFO::Fitting model to feature number 423, Metabolite.2387
+2021-03-11 10:39:12 INFO::Fitting model to feature number 424, Metabolite.2388
+2021-03-11 10:39:12 INFO::Fitting model to feature number 425, Metabolite.2392
+2021-03-11 10:39:12 INFO::Fitting model to feature number 426, Metabolite.2405
+2021-03-11 10:39:12 INFO::Fitting model to feature number 427, Metabolite.2442
+2021-03-11 10:39:12 INFO::Fitting model to feature number 428, Metabolite.2446
+2021-03-11 10:39:12 INFO::Fitting model to feature number 429, Metabolite.2450
+2021-03-11 10:39:12 INFO::Fitting model to feature number 430, Metabolite.2462
+2021-03-11 10:39:12 INFO::Fitting model to feature number 431, Metabolite.2463
+2021-03-11 10:39:12 INFO::Fitting model to feature number 432, Metabolite.2482
+2021-03-11 10:39:12 INFO::Fitting model to feature number 433, Metabolite.2483
+2021-03-11 10:39:12 INFO::Fitting model to feature number 434, Metabolite.2500
+2021-03-11 10:39:12 INFO::Fitting model to feature number 435, Metabolite.2502
+2021-03-11 10:39:12 INFO::Fitting model to feature number 436, Metabolite.2530
+2021-03-11 10:39:12 INFO::Fitting model to feature number 437, Metabolite.2536
+2021-03-11 10:39:12 INFO::Fitting model to feature number 438, Metabolite.2540
+2021-03-11 10:39:12 INFO::Counting total values for each feature
+2021-03-11 10:39:12 WARNING::Deleting existing residuals file: 201119_nonorm_log_metab/residuals.rds
+2021-03-11 10:39:12 INFO::Writing residuals to file 201119_nonorm_log_metab/residuals.rds
+2021-03-11 10:39:12 WARNING::Deleting existing fitted file: 201119_nonorm_log_metab/fitted.rds
+2021-03-11 10:39:12 INFO::Writing fitted values to file 201119_nonorm_log_metab/fitted.rds
+2021-03-11 10:39:12 INFO::Writing all results to file (ordered by increasing q-values): 201119_nonorm_log_metab/all_results.tsv
+2021-03-11 10:39:12 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): 201119_nonorm_log_metab/significant_results.tsv
+2021-03-11 10:39:12 INFO::Writing heatmap of significant results to file: 201119_nonorm_log_metab/heatmap.pdf
+2021-03-11 10:39:12 INFO::Writing association plots (one for each significant association) to output folder: 201119_nonorm_log_metab
+2021-03-11 10:39:12 INFO::Plotting associations from most to least significant, grouped by metadata
+2021-03-11 10:39:12 INFO::Plotting data for metadata number 1, Cdiff_EIA
+2021-03-11 10:39:12 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.1352
+2021-03-11 10:39:13 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.564
+2021-03-11 10:39:13 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.667
+2021-03-11 10:39:13 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.843
+2021-03-11 10:39:13 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.860
+2021-03-11 10:39:13 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.1112
+2021-03-11 10:39:13 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.1149
+2021-03-11 10:39:13 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.1216
+2021-03-11 10:39:14 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2103
+2021-03-11 10:39:14 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2126
+2021-03-11 10:39:14 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2167
+2021-03-11 10:39:14 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2380
+2021-03-11 10:39:14 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.136
+2021-03-11 10:39:14 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.926
+2021-03-11 10:39:14 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.509
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.918
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.883
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2057
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.1826
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2141
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2011
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.49
+2021-03-11 10:39:15 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.881
+2021-03-11 10:39:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.1304
+2021-03-11 10:39:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2450
+2021-03-11 10:39:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2462
+2021-03-11 10:39:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2264
+2021-03-11 10:39:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.585
+2021-03-11 10:39:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2366
+2021-03-11 10:39:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2076
+2021-03-11 10:39:17 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.229
+2021-03-11 10:39:17 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2347
+2021-03-11 10:39:17 INFO::Creating boxplot for categorical data, Cdiff_EIA vs Metabolite.2115

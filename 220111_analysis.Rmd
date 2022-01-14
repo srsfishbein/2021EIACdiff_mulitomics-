@@ -1,0 +1,795 @@
+---
+title: "EIA_manuscript"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r load packages}
+install.packages("caret")
+library(caret)
+install.packages("Maaslin2")
+install.packages("ggthemes")
+library(ggthemes)
+install.packages("vegan")
+install.packages("igraph")
+library(igraph)
+install.packages("ggraph")
+library(ggraph)
+install.packages("RCy3")
+library(RCy3)
+library(reshape2)
+library(ggplot2)
+library(ggpubr)
+install.packages("ggpubr")
+install.packages("devtools")
+library(devtools)
+install.packages("SIAMCAT")
+library("SIAMCAT")
+install.packages("picante")
+library(picante)
+library(ggplot2)
+library(Maaslin2)
+library(dplyr)
+library(stringr)
+library(vegan)
+library(stats)
+library(vegan)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+library(dplyr)
+library(ape)
+library(phyloseq)
+library(ggplot2)
+library(resample)
+library(matrixStats)
+library(psych) 
+install.packages("zCompositions")
+install.packages("compositions")
+library(zCompositions)
+library(compositions)
+library(caret)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("mixOmics")
+library(mixOmics)
+install.packages("ResourceSelection")
+library(ResourceSelection)
+library("SIAMCAT")
+```
+
+```{r load metaphlan, kraken, EIA metadata, humann2 data, metabolites}
+EIAinputmphan <- read.delim("201117_EIA_metaphlan_Rinput_vdi.txt", header=FALSE)
+EIAinputmphan$sampleID<-as.factor(EIAinputmphan$V1)
+EIAtaxa=cbind(EIAinputmphan$V8,EIAinputmphan[,2:7])
+#get taxonomic table for all metaphlan species 
+
+uEIAtaxa=distinct(EIAtaxa)
+row.names(uEIAtaxa)<-uEIAtaxa$`EIAinputmphan$V8`
+uEIAtaxa=uEIAtaxa[,-1]
+colnames(uEIAtaxa)<-c('Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus')
+sorted_taxa=uEIAtaxa[order(row.names(uEIAtaxa)),]
+tax=tax_table(as.matrix(sorted_taxa))
+EIAwide=dcast(sampleID~V8,data=EIAinputmphan,value.var = "V9",fill = 0.0)
+smpID=EIAwide$sampleID
+row.names(EIAwide)=smpID
+EIAwide=EIAwide[,-1]
+EIAwide=EIAwide/rowSums(EIAwide)
+nzv <- nearZeroVar(EIAwide, freqCut = 90/10, uniqueCut = 10)
+EIAwide_nzv=EIAwide[,-(nzv)]
+
+#metadata
+EIA_metadata <- read.delim("211107_EIA_CDT_metadata_vdi.txt")
+row.names(EIA_metadata)<-EIA_metadata$ID
+input_kraken<-read.delim("210927_wide_krakenStandard_species_vdi.txt",header=TRUE)
+row.names(input_kraken)<-input_kraken$Sample
+input_kraken2=input_kraken[,-1]
+nzv <- nearZeroVar(input_kraken2, freqCut = 90/10, uniqueCut = 10)
+input_kraken_nzv=input_kraken2[,-(nzv)]
+input_kraken_nzv=input_kraken_nzv[,-121]#removal of homo_sapiens read
+##load phylogenetic tree from metaphlan2
+load("Metaphlan2Tree 2.RData") #as tree
+
+#removal of duplicate names in phylogenetic tree
+p=lapply(as.character(taxa_names(phy_tree(tree))), function(myline) {strsplit(myline,"__")})
+phynames=vector()
+for (r in seq(length(p))){
+  phynames[r]=p[[r]][[1]][8]
+}
+which(duplicated(phynames))
+##two unnamed species at 2563, 3670
+phynames[2563]<-p[[2563]][1]
+phynames[3670]<-p[[3670]][1]
+t=phy_tree(tree)
+taxa_names(t)<-phynames
+#load abx exposure data
+EIA_abx=read.csv("201228_EIA_abx_input_vdi.csv",header=FALSE,stringsAsFactors = FALSE)
+abx_agg=read.csv("210311_EIA_abx_aggregate_vdi.csv",header=TRUE,stringsAsFactors = FALSE)
+#load metabolite data
+Cdiff_metab <- read.csv("200409_Cdiff_GCMS_vdi.csv",header=FALSE)
+
+#load gene families info for KEGG orthologs annotated as EC 3.2.1
+ko321 <- read.delim("211128_KOEC321_input_vdi.txt", header=FALSE)
+#load humann2 data
+EIA_hum_pwy=read.delim("EIA_201123_humann2_pwy_Rinput_vdi.txt", header=FALSE)
+```
+
+```{r antibiotic exposure}
+
+###aggregated abx data into abx class,ignored time, removed low prevalent abx
+
+abx_agg_mat=abx_agg[1:124,11:dim(abx_agg)[2]]
+abx_agg_mat$patient=abx_agg$Accession_No[1:124]
+abx_agg_mat$status<-as.numeric(abx_agg$Cdiff_EIA=="positive")[1:124]
+model.full = glm(status ~ ceph_agg + fluoroquinolone_agg + carbapenem_agg + 
+     metronidazole_agg + vancomycin_agg ,
+                  data=abx_agg_mat,
+                  family = binomial(link="logit")
+                  )
+hoslem.test(model.full$y,model.full$fitted.values)
+
+```
+```{r microbiome alpha diversity measurements}
+## metaphlan measurements of diversity
+spec_shannon=vegan::diversity(EIAwide,index = "shannon")
+spec_richness=specnumber(EIAwide)
+PD=pd(EIAwide,t)
+div=data.frame(spec_richness,spec_shannon,PD)
+EIA_diversity=merge(EIA_metadata,div, by= 'row.names')
+row.names(EIA_diversity)=EIA_diversity$Row.names
+# plot metaphlan based shannon diversity differences between cohorts 
+shan_fig<-ggplot(EIA_diversity,aes(x = Cdiff_EIA, y = spec_shannon,color=Cdiff_EIA))+geom_violin(width=0.1)+geom_point(position= position_jitter(width=0.05),size=1)+ scale_colour_colorblind()+
+  theme_linedraw()+
+  scale_y_continuous(name="Shannon diversity")+
+  scale_x_discrete(name= "EIA status")+
+  theme(panel.grid.major.x=element_blank(),
+    panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line()
+   ,panel.grid.minor.y=element_blank(), panel.border=element_blank(),legend.position = "none")
+#test of metaphlan shannon diversity differences 
+wilcox.test(EIA_diversity$spec_shannon[EIA_diversity$Cdiff_EIA=="positive"],EIA_diversity$spec_shannon[EIA_diversity$Cdiff_EIA=="negative"])#0.5665
+#test of metaphlan richness differences 
+wilcox.test(EIA_diversity$spec_richness[EIA_diversity$CDT=="positive"],EIA_diversity$spec_richness[EIA_diversity$CDT=="negative"]) #0.2546
+# plot of metaphlan Faith's diversity in cohorts
+PD_fig<-ggplot(EIA_diversity,aes(x = Cdiff_EIA, y = PD,color=Cdiff_EIA))+geom_violin(scale="count",width=0.5)+geom_point(position= position_jitter(width=0.05),size=1)+ scale_colour_colorblind()+
+  theme_linedraw()+
+  scale_y_continuous(name="Faith's diversity")+
+  scale_x_discrete(name= "EIA status")+
+  theme(panel.grid.major.x=element_blank(),
+    panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line()
+   ,panel.grid.minor.y=element_blank(), panel.border=element_blank(),legend.position = "none")
+wilcox.test(EIA_diversity$PD[EIA_diversity$Cdiff_EIA=="positive"],EIA_diversity$PD[EIA_diversity$Cdiff_EIA=="negative"])#0.1602
+
+
+#compare kraken data to metaphlan in terms of c. difficile abundance
+cor(input_kraken_nzv$Clostridioides.difficile,EIAwide_nzv$Clostridium_difficile,method = "pearson")#0.9417325
+```
+```{r save fig1 alpha diversity}
+fig_width=2
+fig_height = 3
+ggsave('211107_EIAshannon.eps', plot=shan_fig,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+ggsave('211107_EIAfaithsdiv.eps', plot=PD_fig,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+```
+```{r microbiome betadiversity}
+# make phylosec object with metaphlan data
+ps <- phyloseq(otu_table(EIAwide,taxa_are_rows = FALSE) ,sample_data(EIA_metadata),tax_table(as.matrix(sorted_taxa)),t)
+wEIA_unifrac=phyloseq::distance(ps,method="wunifrac")
+EIA_unifrac=phyloseq::distance(ps,method="unifrac")
+EIA_bray=phyloseq::distance(ps,method="bray")
+#influence of EIA on betadiversity (weighted unifrac)
+set.seed(50)
+adonis(EIA_unifrac~ Cdiff_EIA, data = EIA_metadata)#0.654
+adonis(wEIA_unifrac~ Cdiff_EIA, data = EIA_metadata)#0.233
+adonis(EIA_bray~ Cdiff_EIA, data = EIA_metadata)#0.415
+
+adonis(EIA_bray~ CDT, data = EIA_metadata, )#0.799
+adonis(EIA_bray~ Ribotype_cull, data = EIA_metadata)#0.982
+
+
+###plot wunifrac for EIA,CDT,Ribotype, and bray for EIA
+ordufra=ordinate(ps,method="PCoA", "unifrac",weighted=TRUE)
+#plot PCoA for EIA status
+a<-plot_ordination(ps, ordufra,color="Cdiff_EIA")+ stat_ellipse(type = "norm", linetype = 2, aes(color=Cdiff_EIA))+scale_colour_colorblind()+theme_linedraw()+theme(legend.position="bottom",panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank())
+#plot PCoA for CDT status
+b<-plot_ordination(ps, ordufra,color="CDT")+ stat_ellipse(type = "norm", linetype = 2, aes(color=CDT))+theme_linedraw()+theme(legend.position="bottom",panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank())
+#plot PCoA for Ribotype status
+c<-plot_ordination(ps, ordufra,color="Ribotype_cull")+ stat_ellipse(type = "norm", linetype = 2)+theme_linedraw()+theme(legend.position="bottom",panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank())
+
+ordu = ordinate(ps,method="PCoA", "bray")
+
+bray<-plot_ordination(ps, ordu,color="Cdiff_EIA")+ stat_ellipse(type = "norm", linetype = 2, aes(color=Cdiff_EIA))+scale_colour_colorblind()
+
+
+#save figures
+fig_width=4
+fig_height =3
+ggsave('211203_wunifrac_metaphlan.eps', plot=a,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+ggsave('211203_wunifrac_metaphlan_CDT.eps', plot=b,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+ggsave('211203_wunifrac_metaphlan_RT_legend.eps', plot=c,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+ggsave('211203_bray_reviewer.eps', plot=bray,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+
+
+```
+```{r differentially abundant taxa}
+#run Maaslin2 on both Metaphlan and Kraken data
+fit=Maaslin2(EIAwide_nzv,EIA_metadata,'211108_metaphlan_EIA',fixed_effects = c("Cdiff_EIA"),transform="LOG",min_variance = 0.001,min_abundance = 0.0001)
+fit=Maaslin2(input_kraken_nzv,EIA_metadata,'211108_kraken_EIA',fixed_effects = c("Cdiff_EIA"),transform="LOG",min_variance = 0.001,min_abundance = 0.0001)
+coeffs_maas=read.csv("211108_metaphlan_EIA/significant_results.tsv",header = TRUE,sep = "\t")
+#use taxonomic table to find annotations for significantly associated taxa
+found_taxa=as.data.frame(tax[row.names(tax) %in% coeffs_maas$feature,])
+row.names(coeffs_maas)<-coeffs_maas$feature
+spec_maas=merge(coeffs_maas,found_taxa,by="row.names")
+spec_maas$neglogp=-log10(spec_maas$qval)
+spec_maas$feature=factor(spec_maas$feature,levels=spec_maas$feature[order(spec_maas$coef)])
+#plot metaphlan maaslin2 analysis
+specmaas_mp_fig<-ggplot(spec_maas,aes(x=coef,y=feature,xmin=coef-stderr,xmax=coef+stderr))+
+  geom_abline(slope=0,intercept=0)+
+ geom_pointrange(aes(color=Class))+
+  geom_point(aes(size=neglogp,color=Class))+theme_linedraw()+theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle = 90, hjust=1))+labs(size="-log(q-value)")+scale_y_discrete(name="Significant microbial features")+scale_x_continuous(name="Coefficients")+scale_color_colorblind()
+
+
+###manually annotated kingdom,class, family, etc.
+coeffs_maas=read.csv("211108_kraken_EIA/significant_results_v2.txt",header = TRUE,sep = "\t")
+row.names(coeffs_maas)<-coeffs_maas$feature
+
+coeffs_maas$neglogp=-log10(coeffs_maas$qval)
+coeffs_maas$feature=factor(coeffs_maas$feature,levels=coeffs_maas$feature[order(coeffs_maas$coef)])
+#plot kraken maaslin2 analysis
+specmaas_kr_fig<-ggplot(coeffs_maas,aes(x=coef,y=feature,xmin=coef-stderr,xmax=coef+stderr))+geom_abline(slope=0,intercept=0)+geom_pointrange(aes(color=Class))+geom_point(aes(size=neglogp,color=Class))+theme_linedraw()+theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle = 90, hjust=1))+labs(size="-log(q-value)")+scale_y_discrete(name="Significant microbial features")+scale_x_continuous(name="Coefficients")+scale_color_colorblind()
+fig_1c
+###save figs
+fig_width=6
+fig_height = 4
+ggsave('211108_metaphlan_maaslin_EIA.eps', plot=specmaas_mp_fig,width=fig_width, height=fig_height, units='in',device="eps")
+ggsave('211108_kraken_maaslin_EIA.eps', plot=specmaas_kr_fig,width=fig_width, height=fig_height, units='in',device="eps")
+
+```
+
+
+
+``` {r bacterial phyla abundances metaphlan}
+tax=tax_table(as.matrix(sorted_taxa))
+EIA_otu=otu_table(EIAwide[order(row.names(EIAwide)),],taxa_are_rows = FALSE)
+EIA_met_phy=sample_data(EIA_metadata)
+
+EIA_total_phy=phyloseq(EIA_met_phy,tax,EIA_otu)
+#aggregate measurements to phylum level
+tot_df=psmelt(tax_glom(EIA_total_phy,"Phylum"))
+#plot metaphlan phylum differences between EIA status
+phyla_fig<-ggplot(tot_df,aes(x=Phylum,y=Abundance,color=Cdiff_EIA))+geom_point(pch = 21, position = position_jitterdodge())+theme_linedraw()+
+  theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+stat_compare_means(aes(label=..p.adj..),method= "wilcox.test")+scale_colour_colorblind()
+#save figure 
+fig_width=6
+fig_height = 3
+ggsave('211201_metaphlan_phyla_fig.eps', plot=phyla_fig,width=fig_width, height=fig_height,units='in',device="eps")
+```
+```{r species relative abundances between cohorts}
+#convert wide format to long format for ploting purposes
+metaphlan_metadata=merge(EIAwide_nzv,EIA_metadata,by="row.names")
+x=melt(metaphlan_metadata)
+#plot ten most significant features from metaphlan maaslin
+plot_feat=as.character(spec_maas$feature[order(spec_maas$qval)][1:10])
+relab_data=x[x$variable%in%plot_feat,]
+
+#imputed value to plot on log scale
+relab_plot<-ggplot(relab_data,aes(x=factor(variable,level=spec_maas$feature[order(spec_maas$qval)]),y=value+0.00015,colour=Cdiff_EIA))+
+  geom_point(pch = 21, position = position_jitterdodge( dodge.width = 0.9))+theme_linedraw()+
+  theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+labs(colour="EIA status")+scale_y_log10(name="Relative abundance")+scale_x_discrete(name="Maaslin_LM")+scale_colour_colorblind()+stat_compare_means(aes(group = Cdiff_EIA,label=..p.adj..))
+# plot C. difficile abundance stratified by metadata
+cd_ribotype<-ggplot(metaphlan_metadata,aes(x=Ribotype_cull,y=Clostridium_difficile+0.00015))+geom_boxplot()+geom_point(pch =21,position=position_jitter())+theme_linedraw()+theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+scale_y_log10(name="Relative abundance")+scale_x_discrete(name="C. difficile ribotype")+scale_colour_colorblind()+stat_compare_means()
+
+cd_cdt<-ggplot(metaphlan_metadata,aes(x=CDT,y=Clostridium_difficile+0.00015))+
+  geom_violin()+geom_point(pch =21,position=position_jitter())+theme_linedraw()+
+  theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+labs(colour="EIA status")+scale_y_log10(name="Relative abundance")+scale_x_discrete(name="CDT Locus Presence")+scale_colour_colorblind()+stat_compare_means()
+fig_width=8
+fig_height = 6
+ggsave('211108_metaphlan_relab_label.eps', plot=relab_plot,width=fig_width, height=fig_height,units='in',device="eps")
+fig_width=4
+fig_height = 4
+ggsave('211108_metaphlan_CD_ribotype.eps', plot=cd_ribotype,width=fig_width, height=fig_height,units='in',device="eps")
+fig_width=2
+fig_height = 4
+ggsave('211108_metaphlan_CD_CDT.eps', plot=cd_cdt,width=fig_width, height=fig_height,units='in',device="eps")
+
+```
+``` {r relab kraken }
+#change wide to long for plotting purposes
+kraken_metadata=merge(input_kraken_nzv,EIA_metadata,by="row.names")
+x=melt(kraken_metadata)
+libplot_feat=as.character(coeffs_maas$feature[order(coeffs_maas$qval)][1:6])
+relab_data=x[x$variable%in%libplot_feat,]
+#plot significant features from maaslin2
+relab_plot<-ggplot(relab_data,aes(x=factor(variable,level=coeffs_maas$feature[order(coeffs_maas$qval)]),y=(value+0.0000005)*100,colour=Cdiff_EIA))+
+  geom_point(pch = 21, position = position_jitterdodge( dodge.width = 0.9))+theme_linedraw()+
+  theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+labs(colour="EIA status")+scale_y_log10(name="Relative abundance")+scale_x_discrete(name="Maaslin_LM")+scale_colour_colorblind()+stat_compare_means(aes(label=..p.adj..))
+#stratify Cdiff abundance by ribotype
+cd_ribotype<-ggplot(kraken_metadata,aes(x=Ribotype_cull,y=(Clostridioides.difficile+0.0000005)*100))+geom_boxplot(outlier.shape = NA)+geom_point(pch =21,position=position_jitter())+theme_linedraw()+theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+scale_y_log10(name="Relative abundance")+scale_x_discrete(name="C. difficile ribotype")+scale_colour_colorblind()+coord_flip()+stat_compare_means(label.x.npc = "right",label.y.npc ="bottom")
+#stratify Cdiff abundance by CDT
+cd_cdt<-ggplot(kraken_metadata,aes(x=CDT,y=(Clostridioides.difficile+0.0000005)*100))+
+  geom_violin()+geom_point(pch =21,position=position_jitter())+theme_linedraw()+
+  theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+labs(colour="EIA status")+scale_y_log10(name="Relative abundance")+scale_x_discrete(name="CDT Locus Presence")+scale_colour_colorblind()+stat_compare_means()
+fig_width=6
+fig_height = 4
+ggsave('211225_kraken_relab.eps', plot=relab_plot,width=fig_width, height=fig_height,units='in',device="eps")
+fig_width=4
+fig_height = 4
+ggsave('211225_kraken_CD_ribotype.eps', plot=cd_ribotype,width=fig_width, height=fig_height,units='in',device="eps")
+fig_width=2
+fig_height = 4
+ggsave('211225_kraken_CD_CDT.eps', plot=cd_cdt,width=fig_width, height=fig_height,units='in',device="eps")
+
+
+```
+
+``` {r metaphlan abx}
+
+studyID=EIA_abx$V1[4:dim(EIA_abx)[1]]
+EIA_abx_matrix=EIA_abx[4:dim(EIA_abx)[1],11:dim(EIA_abx)[2]]
+row.names(EIA_abx_matrix)<-studyID
+abx_binary=rowSums(as.matrix(sapply(EIA_abx_matrix, as.numeric)))>0
+abx_binary[abx_binary==TRUE]<-"yes"
+abx_binary[abx_binary==FALSE]<-"no"
+names(abx_binary)<-studyID
+metadata_all=merge(EIA_metadata,abx_binary,by="row.names")
+row.names(metadata_all)<-metadata_all$Row.names
+metadata_all=metadata_all[-1]
+abxfit=Maaslin2(EIAwide_nzv,metadata_all,'211108_metaphlan_abx_maaslin_220113',fixed_effects="y",transform="LOG",min_prevalence = 0.001,min_abundance = 0.0001)
+abxcoeff=read.csv("211108_metaphlan_abx_maaslin/significant_results.tsv",header = TRUE,sep = "\t")
+abxcoeff$metadata<-"abx"
+a=rbind(abxcoeff[,c("feature","metadata")],spec_maas[,c("feature","metadata")])
+first=sample(c("abx"),dim(abxcoeff[,c("feature","metadata")])[1],replace=TRUE)
+second=sample(c("species"),dim(spec_maas[,c("feature","metadata")])[1],replace=TRUE)
+c=c(abxcoeff$coef,spec_maas$coef)
+a$type=c(first,second)
+a$weight=c
+n=c("abx","Cdiff_EIA",unique(a$feature))
+s=c(rep("metadata",2), rep("species",28))
+nodes=cbind(n,s)
+abxs=graph_from_data_frame(a,vertices=nodes,directed=FALSE)
+h<-ggraph(abxs)+ geom_edge_fan(aes(color=weight))+geom_node_text(aes(label=name),repel = FALSE,check_overlap = FALSE,size=2)+scale_edge_color_gradient2(low="darkorange2",mid="cornsilk", high="darkgreen")+scale_color_manual(breaks = c("species", "metadata"),values=c("black","darkslategray4"))+theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"))
+fig_width=4
+fig_height = 4
+ggsave('211108_abx_EIA_metaphlan.eps', plot=h,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+
+```
+
+``` {r analyze humann2 data}
+
+
+
+#compute alpha diversity metrics
+hum_shannon=diversity(hum_pwy,index="shannon")
+hum_richness=specnumber(hum_pwy)
+status=EIA_diversity$Cdiff_EIA
+hum_diversity=data.frame(hum_shannon,hum_richness,status)
+wilcox.test(hum_diversity$hum_shannon[which(hum_diversity$status=='positive')],hum_diversity$hum_shannon[which(hum_diversity$status=='negative')])#p=0.1323
+wilcox.test(hum_diversity$hum_richness[which(hum_diversity$status=='positive')],hum_diversity$hum_richness[which(hum_diversity$status=='negative')])#p=0.2393
+n<-ggplot(hum_diversity,aes(x=status,y=hum_richness,color=status))+geom_boxplot()+geom_point(position = position_jitter())+scale_color_colorblind()+theme_classic()
+
+#save figure
+fig_width=3
+fig_height = 4
+ggsave('211224_humann2_richness.eps', plot=n,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+#betadiversity calculation
+bray_pwy=vegdist(hum_pwy,method="bray")
+set.seed(50)
+adonis(bray_pwy~Cdiff_EIA, data = EIA_metadata)#0.054
+
+NMDS=metaMDS(hum_pwy,distance="bray",k=3)
+nmds.scores=as.data.frame(scores(NMDS))
+nmds.scores$site <- rownames(nmds.scores)
+nmds.scores$status <- status
+m<-ggplot(data=nmds.scores,aes(x=NMDS1,y=NMDS2,colour=status))+geom_point(size=2)+scale_color_colorblind()+theme_classic()+stat_ellipse(type="t",size=0.5)
+
+#save figure
+fig_width=5
+fig_height = 4
+ggsave('211224_humann2_bray.eps', plot=m,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+
+
+#elastic net model for humann2 pathways altered due to EIA status
+pwy_nzv_norm=hum_pwy_nzv/rowSums(hum_pwy_nzv)
+label_metab_rfc=create.label(label="Cdiff_EIA",case="positive",meta=EIA_metadata)
+metag_siamcat=siamcat(feat=t(otu_table(pwy_nzv_norm,taxa_are_rows = FALSE)),meta=metadata,label=label_metab_rfc)
+metag_siamcat_one <- filter.features(metag_siamcat,filter.method = 'abundance',cutoff = 0.0001)
+siamcat <- check.associations(metag_siamcat_one, sort.by = 'fc',alpha = 0.05, mult.corr = "fdr")
+
+Yes
+siamcat <- normalize.features(
+  metag_siamcat_one,
+  norm.method = "log.std")
+siamcat <-  create.data.split(
+  siamcat,
+  num.folds = 10,
+  num.resample = 10,
+)
+siamcat <- train.model(siamcat,method="enet",param.set=list('alpha'=0.2))
+model_type(siamcat)
+siamcat <- make.predictions(siamcat)
+pred_matrix <- pred_matrix(siamcat)
+siamcat <-  evaluate.predictions(siamcat)
+model.evaluation.plot(siamcat)
+
+
+#alpha 0.2, 0.806
+model.interpretation.plot(siamcat,fn.plot = '211022_siamcat_enet_V4.pdf',consens.thres = 0.5,heatmap.type = 'zscore', max.show = 20)
+# mean AUC for enet 0.825 on 201204
+
+
+```
+
+
+
+```{r metabolomics analysis}
+#clean dataframe
+col=Cdiff_metab[1,3:126]
+row=Cdiff_metab$V1[2:2541]
+metabolite_id=Cdiff_metab$V1[2:2541]
+Cdiff_metab_clean=Cdiff_metab[,-2]
+Cdiff_metab_clean=Cdiff_metab_clean[,-1]
+Cdiff_metab_clean=Cdiff_metab_clean[-1,]
+
+row.names(Cdiff_metab_clean)=row
+colnames(Cdiff_metab_clean)=col
+
+or_Cd_metab=Cdiff_metab_clean[,order(colnames(Cdiff_metab_clean))]
+Cdm=t(or_Cd_metab)
+
+#filtering
+Cnzv <- nearZeroVar(Cdm)
+Cdm_nzv=Cdm[,-(Cnzv)]
+Cdm_nvz_label=merge(Cdm_nzv,EIA_metadata,by="row.names")
+
+row.names(Cdm_nvz_label)=Cdm_nvz_label$Row.names
+Cdm_nvz_label=Cdm_nvz_label[,-1]
+Cdm_nvz_final=Cdm_nvz_label[,1:438]
+euclid_metab=vegdist(Cdm_nvz_final,method="euclidean")
+set.seed(50)
+adonis(euclid_metab~Cdiff_EIA,data=EIA_metadata,method="euclidean")#0.426
+#compute and plot ordination of euclidean distances between metabolomes
+NMDS=metaMDS(Cdm_nvz_final,distance="euclidean",k=3)
+nmds.scores=as.data.frame(scores(NMDS))
+nmds.scores$site <- rownames(nmds.scores)
+nmds.scores$status <- status
+euc_metab<-ggplot(data=nmds.scores,aes(x=NMDS1,y=NMDS2,color=status))+geom_point(size=2)+scale_shape_manual(breaks = c("negative", "positive"),values=c(16,17))+theme_linedraw()+theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank())+stat_ellipse(type="t",size=0.5)+scale_colour_colorblind()
+#save figure
+fig_width=4
+fig_height = 4
+ggsave('211224_euclidean_metabolome.eps', plot=euc_metab,
+       width=fig_width, height=fig_height,
+       units='in',device="eps",)
+##maaslin analysis of metabolomics measurements
+
+fit=Maaslin2(Cdm_nvz_final,metadata,'201119_nonorm_log_metab',fixed_effects = "Cdiff_EIA",normalization = "NONE", transform = "LOG",min_prevalence = 0.1)
+#added HMP labels and checked with 200625 dataset to make sure it is the same. and it is. also removed stupid period with dash
+coeffs_maas=read.csv("201119_nonorm_log_metab/210310_significant_results_label.txt",header = TRUE,sep = "\t")
+coeffs_maas$neglogp=-log10(coeffs_maas$qval)
+coeffs_maas$label=factor(coeffs_maas$label,levels=coeffs_maas$label[order(coeffs_maas$coef)])
+fig_2b<-ggplot(coeffs_maas,aes(x=coef,y=label,xmin=coef-stderr,xmax=coef+stderr))+geom_abline(slope=0,intercept=0)+geom_pointrange(aes(color=HMDB.subclass))+
+  geom_point(aes(size=neglogp,color=HMDB.subclass))+theme_linedraw()+theme(legend.position="none",panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle = 90, hjust=1))+scale_colour_manual(breaks = c("Carbohydrates and carbohydrate conjugates", "Fatty acids and conjugates", "Other"),values=c("#D55E00","#CC79A7","#000000"))+labs(size="-log(q-value)",color="HMDB subclass")+scale_y_discrete(name="Significant metabolic features")+scale_x_continuous(name="Coefficients")
+fig_2b
+```
+```{r save fig_2b}
+fig_width = 5
+fig_height = 6
+ggsave('210309_fig_2b_out_noleg.eps', plot=fig_2b,
+       width=fig_width, height=fig_height,
+       units='in',device="eps",)
+```
+
+```{r multiome building}
+
+metab_clr=clr(Cdm_nvz_final)#this is usign near zero variance, need to switch out if you want something else 
+kraken_metag_clr=clr(input_kraken_nzv+min(input_kraken_nzv[input_kraken_nzv>0])/2)
+metaphlan_metag_clr=clr(EIAwide_nzv+min(EIAwide_nzv[EIAwide_nzv>0])/2)
+k_multi_clr=merge(metab_clr,kraken_metag_clr, by="row.names")
+m_multi_clr=merge(metab_clr,metaphlan_metag_clr, by="row.names")
+row.names(k_multi_clr)<-k_multi_clr$Row.names
+k_multi_clr=k_multi_clr[,-1]
+row.names(m_multi_clr)<-m_multi_clr$Row.names
+m_multi_clr=m_multi_clr[,-1]
+
+###metaphlan
+trainingData<-m_multi_clr
+#alttrainID for tuning
+EIA_metadata=EIA_metadata[order(row.names(EIA_metadata)),]
+trainID=EIA_metadata$Cdiff_EIA
+inputX<-list(metab=trainingData[,1:438],metag=trainingData[,439:ncol(trainingData)])
+inputY<-trainID
+
+set.seed(30)
+#how many components to keep
+des=matrix(0.8,ncol=length(inputX),nrow=length(inputX),dimnames=list(names(inputX),names(inputX)))
+block=block.splsda(X = inputX, Y = inputY, ncomp = 3,design = des)
+set.seed(123)
+perf.diablo = perf(block, validation = 'Mfold', folds = 10, nrepeat = 10)
+plot(perf.diablo) 
+quartz.save('211109_metaphlan_ncomp_diablo.pdf',type="pdf")
+ncomp = perf.diablo$choice.ncomp$WeightedVote["Overall.BER", "centroids.dist"]
+## variable selection
+#how many metab variables to keep
+t.keepX = list(metab = seq(15,30,5), metag = seq(15,30,5))
+tune.splsda.srbct1 <- tune.block.splsda(X = inputX, Y = inputY, ncomp = 2, test.keepX = t.keepX, design = des,validation = 'Mfold', folds = 10, nrepeat = 10, dist = "centroids.dist")
+error <- tune.splsda.srbct1$error.rate
+plot(tune.splsda.srbct1)
+quartz.save('211115_metaphlan_nvaribales_diablo.pdf',type="pdf")
+select=tune.splsda.srbct1$choice.keepX
+#15,15 for metag, 15,25 for metab
+###final model
+
+
+res.diablo<-block.splsda(inputX,inputY,design = des,ncomp = 2,near.zero.var = TRUE,keepX =list(metab=c(15,15),metag=c(15,25)))
+myselectvariable=selectVar(res.diablo,comp = 1)
+
+
+cim(cor(inputX$metab[,myselectvariable$metab$name],inputX$metag[,myselectvariable$metag$name],use = "all.obs",method = "spearman"),margins=c(10,10))
+
+
+quartz.save('211108_spearman_metaphlan.pdf',type="pdf")
+load_fig<-plotLoadings(res.diablo,contrib='max',comp = 1,method='mean',ndisplay = 20,legend.color = c("#000000","#E69F00"))
+quartz.save('211108_metaphlan_load.pdf',type="pdf")
+plotVar(res.diablo, var.names = TRUE, style = 'ggplot2', legend = TRUE, pch = c(20,20), cex = c(2,2), cutoff = 0.4,col = c("#D55E00", "#009E73"))
+quartz.save('211115_variableplot_metaphlan_diablo.pdf',type="pdf")
+
+auroc(res.diablo,roc.comp = 1,roc.block = 'metag')
+quartz.save('211115_metaphlan_diablo_auc1.pdf',type="pdf")
+auroc(res.diablo,roc.comp = 1,roc.block = 'metab')
+quartz.save('211115_metaphlan_diablo_auc2.pdf',type="pdf")
+auroc(res.diablo,roc.comp = 2,roc.block = 'metag')
+quartz.save('211115_metaphlan_diablo_auc3.pdf',type="pdf")
+auroc(res.diablo,roc.comp = 2,roc.block = 'metab')
+quartz.save('211115_metaphlan_diablo_auc4.pdf',type="pdf")
+######$metab
+##$metab$comp1
+##                        AUC p-value
+##negative vs positive 0.8507 1.1e-09
+
+##$metab$comp2
+##                        AUC   p-value
+##negative vs positive 0.9201 2.855e-13
+
+
+##$metag
+##$metag$comp1
+##                        AUC   p-value
+##negative vs positive 0.9097 1.079e-12
+
+##$metag$comp2
+##                        AUC   p-value
+##negative vs positive 0.9398 2.132e-14
+#####
+
+####kraken
+trainingData<-k_multi_clr
+#alttrainID for tuning
+EIA_metadata=EIA_metadata[order(row.names(EIA_metadata)),]
+trainID=EIA_metadata$Cdiff_EIA
+inputX<-list(metab=trainingData[,1:438],metag=trainingData[,439:ncol(trainingData)])
+inputY<-trainID
+
+set.seed(30)
+#how many components to keep
+des=matrix(0.8,ncol=length(inputX),nrow=length(inputX),dimnames=list(names(inputX),names(inputX)))
+block=block.splsda(X = inputX, Y = inputY, ncomp = 3,design = des)
+set.seed(123)
+perf.diablo = perf(block, validation = 'Mfold', folds = 10, nrepeat = 10)
+plot(perf.diablo) 
+quartz.save('211115_kraken_ncomp_diablo.pdf',type="pdf")
+ncomp = perf.diablo$choice.ncomp$WeightedVote["Overall.BER", "centroids.dist"]
+## variable selection
+#how many metab variables to keep
+t.keepX = list(metab = seq(15,30,5), metag = seq(15,30,5))
+tune.splsda.srbct1 <- tune.block.splsda(X = inputX, Y = inputY, ncomp = 2, test.keepX = t.keepX, design = des,validation = 'Mfold', folds = 10, nrepeat = 10, dist = "centroids.dist")
+error <- tune.splsda.srbct1$error.rate
+plot(tune.splsda.srbct1)
+quartz.save('211115_kraken_nvariables_diablo.pdf',type="pdf")
+select=tune.splsda.srbct1$choice.keepX
+#for kraken, one component, 15,15 for metab and 15,15 for metag
+###final model
+res.diablo<-block.splsda(inputX,inputY,design = des,ncomp = 2,near.zero.var = TRUE,keepX =list(metab=c(15,15),metag=c(15,15)))
+plotVar(res.diablo, var.names = TRUE, style = 'ggplot2', legend = TRUE, pch = c(20,20), cex = c(2,2), cutoff = 0.4,col = c("#D55E00", "#009E73"))
+quartz.save('211115_variableplot_kraken_diablo.pdf',type="pdf")
+myselectvariable=selectVar(res.diablo,comp = 1)
+cim(cor(inputX$metab[,myselectvariable$metab$name],inputX$metag[,myselectvariable$metag$name],use = "all.obs",method = "spearman"),margins=c(20,20))
+quartz.save('211203_spearman_kraken.pdf',type="pdf")
+load_fig<-plotLoadings(res.diablo,contrib='max',comp = 1,method='mean',ndisplay = 20,legend.color = c("#000000","#E69F00"))
+quartz.save('211108_kraken_load.pdf',type="pdf")
+auroc(res.diablo,roc.comp = 1,roc.block = 'metag')
+quartz.save('211108_kraken_diablo_auc1.pdf',type="pdf")
+auroc(res.diablo,roc.comp = 1,roc.block = 'metab')
+quartz.save('211108_kraken_diablo_auc2.pdf',type="pdf")
+auroc(res.diablo,roc.comp = 2,roc.block = 'metag')
+quartz.save('211108_kraken_diablo_auc3.pdf',type="pdf")
+auroc(res.diablo,roc.comp = 2,roc.block = 'metab')
+quartz.save('211108_kraken_diablo_auc4.pdf',type="pdf")
+#$metab
+#$metab$comp1
+#                        AUC   p-value
+#negative vs positive 0.8279 1.207e-08
+
+#$metab$comp2
+#                        AUC   p-value
+#negative vs positive 0.9051 1.929e-12
+
+
+#$metag
+#$metag$comp1
+#                       AUC   p-value
+#negative vs positive 0.853 8.545e-10
+
+#$metag$comp2
+#                        AUC   p-value
+#negative vs positive 0.9066 1.591e-12
+
+```
+
+``` {r diversity monosaccharide}
+tot_genus_df=psmelt(tax_glom(EIA_total_phy,"Genus"))
+tot_order_df=psmelt(tax_glom(EIA_total_phy,"Order"))
+genus_df=dcast(Sample~Genus,data=tot_genus_df,value.var = "Abundance",fill = 0.0)
+order_df=dcast(Sample~Order,data=tot_order_df,value.var = "Abundance",fill = 0.0)
+row.names(genus_df)<-genus_df$Sample
+row.names(order_df)<-order_df$Sample
+genus_df=genus_df[,-1]
+order_df=order_df[,-1]
+sugar_tot= log(Cdm_nvz_final$`Metabolite-860`+Cdm_nvz_final$`Metabolite-1149`+Cdm_nvz_final$`Metabolite-883`)
+rhamnose_tot=log(Cdm_nvz_final$`Metabolite-860`)
+fructose_rhamnose_tot=log(Cdm_nvz_final$`Metabolite-860`+Cdm_nvz_final$`Metabolite-1149`)
+EIA_metadata=EIA_metadata[order(row.names(EIA_metadata)),]
+EIA_metadata_2=cbind(EIA_metadata,sugar_tot,fructose_rhamnose_tot,rhamnose_tot)
+fit=Maaslin2(EIAwide_nzv,EIA_metadata_2,'211202_sugar_species_screen',fixed_effects = c("sugar_tot","fructose_rhamnose_tot","rhamnose_tot"))
+
+cor(sugar_tot, spec_shannon,method="spearman") # -0.06794763
+```
+
+``` {r bootstrap}
+clostridiales<- function(total_taxa,ntaxa,tax_unit,unit_name){
+  ntot=total_taxa[,tax_unit]
+  choose=sample(length(ntot),ntaxa,replace = TRUE)
+  found=ntot[choose]
+  nfound=length(found[found==unit_name])
+  proportion=nfound/ntaxa
+	return(proportion)
+}
+clostridiales(uEIAtaxa,20,4,"Clostridiales")
+bstrap=vector()
+for (r in seq(1:1000)){
+  bstrap[r]=clostridiales(uEIAtaxa,20,4,"Clostridiales")
+  
+}
+se=sd(bstrap)
+me=ceiling(10*2*se)/10
+round(mean(bstrap),1)+c(-1,1)*me
+```
+
+```{r compare kraken and metaphlan and rerun analyses without C. difficile undetectable samples}
+nCDkraken=length(input_kraken$Clostridioides.difficile[input_kraken$Clostridioides.difficile>0] )##101/102 samples have C. difficile
+nCDmetaphlan=length(EIAwide$Clostridium_difficile[EIAwide$Clostridium_difficile>0]) #70/102
+EIAwide_nzv_CD=EIAwide_nzv[EIAwide_nzv$Clostridium_difficile>0,]
+EIAwide_CD=EIAwide[EIAwide$Clostridium_difficile>0,]
+EIAmetadata_CD=EIA_metadata[EIAwide$Clostridium_difficile>0,]
+###figure1b
+ps <- phyloseq(otu_table(EIAwide_CD,taxa_are_rows = FALSE) ,sample_data(micro_metadata),tax_table(as.matrix(sorted_taxa)),t)
+ordu = ordinate(ps, "NMDS", "unifrac", weighted=TRUE)
+EIA_unifrac=phyloseq::distance(ps,method="unifrac")
+plot_ordination(ps, ordu, color="Cdiff_EIA")
+adonis(EIA_unifrac~Cdiff_EIA, data = EIAmetadata_CD)
+
+
+## reviewer concerned that biggest difference between microbiome is due to samples that don't have C. difficile, so removed those samples
+EIAwide_nzv_CD=EIAwide_nzv[EIAwide_nzv$Clostridium_difficile>0,]
+fit=Maaslin2(EIAwide_nzv_CD,EIA_metadata,'211104_metaphlan_CD',fixed_effects = "Cdiff_EIA",random_effects = "CDT",transform="LOG",min_variance = 0.001,min_abundance = 0.0001)
+coeffs_maas=read.csv("211104_metaphlan_CD/significant_results.tsv",header = TRUE,sep = "\t")
+found_taxa=as.data.frame(tax[row.names(tax) %in% coeffs_maas$feature,])
+row.names(coeffs_maas)<-coeffs_maas$feature
+spec_maas=merge(coeffs_maas,found_taxa,by="row.names")
+spec_maas$neglogp=-log10(spec_maas$qval)
+spec_maas$feature=factor(spec_maas$feature,levels=spec_maas$feature[order(spec_maas$coef)])
+fig_1c<-ggplot(spec_maas,aes(x=coef,y=feature,xmin=coef-stderr,xmax=coef+stderr))+
+  geom_abline(slope=0,intercept=0)+
+ geom_pointrange(aes(color=Class))+
+  geom_point(aes(size=neglogp,color=Class))+theme_linedraw()+theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle = 90, hjust=1))+labs(size="-log(q-value)")+scale_y_discrete(name="Significant microbial features")+scale_x_continuous(name="Coefficients")
+fig_1c
+fig_width=6
+fig_height = 6
+ggsave('211208_noCDremoved_Maaslin2_metaphlan.eps', plot=fig_1c,width=fig_width, height=fig_height, units='in',device="eps")
+```
+
+
+```{r mask C. difficile reads}
+#reviewer asked us to renormalize relative abundance data without C. difficile and ask if there were differentially abundant taxa
+EIAwide_mask=EIAwide[,-129]
+EIAwide_mask=EIAwide_mask/rowSums(EIAwide_mask)
+nzv <- nearZeroVar(EIAwide_mask)
+EIAwide_mask_nzv=EIAwide_mask[,-(nzv)]
+ps <- phyloseq(otu_table(EIAwide_mask,taxa_are_rows = FALSE) ,sample_data(micro_metadata),tax_table(as.matrix(sorted_taxa)),t)
+ordu = ordinate(ps, "NMDS", "unifrac", weighted=TRUE)
+EIA_unifrac=phyloseq::distance(ps,method="wunifrac",)
+plot_ordination(ps, ordu, color="Cdiff_EIA")
+adonis(EIA_unifrac~Cdiff_EIA, data = EIA_metadata)
+
+fit=Maaslin2(EIAwide_mask_nzv,EIA_metadata,'211104_metaphlan_maskCD',fixed_effects = "Cdiff_EIA",random_effects = "CDT",transform="LOG",min_variance = 0.001,min_abundance = 0.0001)
+coeffs_maas=read.csv("211104_metaphlan_maskCD/significant_results.tsv",header = TRUE,sep = "\t")
+found_taxa=as.data.frame(tax[row.names(tax) %in% coeffs_maas$feature,])
+row.names(coeffs_maas)<-coeffs_maas$feature
+spec_maas=merge(coeffs_maas,found_taxa,by="row.names")
+spec_maas$neglogp=-log10(spec_maas$qval)
+spec_maas$feature=factor(spec_maas$feature,levels=spec_maas$feature[order(spec_maas$coef)])
+fig_1c<-ggplot(spec_maas,aes(x=coef,y=feature,xmin=coef-stderr,xmax=coef+stderr))+
+  geom_abline(slope=0,intercept=0)+
+ geom_pointrange(aes(color=Class))+
+  geom_point(aes(size=neglogp,color=Class))+theme_linedraw()+theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(),panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle = 90, hjust=1))+labs(size="-log(q-value)")+scale_y_discrete(name="Significant microbial features")+scale_x_continuous(name="Coefficients")
+fig_1c
+##save figure
+fig_width=6
+fig_height = 6
+ggsave('211202_maskedCD_Maaslin2_metaphlan.eps', plot=fig_1c,width=fig_width, height=fig_height, units='in',device="eps")
+```
+``` {r fig s1a bacterial phyla kraken}
+input_kraken_phyla<-read.delim("210927_wide_krakenStandard_phyla_vdi.txt",header=TRUE)
+row.names(input_kraken_phyla)<-input_kraken_phyla$Sample
+input_kraken_phyla=input_kraken_phyla[,-1]
+nzv <- nearZeroVar(input_kraken_phyla)
+kraken_phyla_nzv=input_kraken_phyla[,-(nzv$Position)]
+phyla_label=merge(kraken_phyla_nzv,metadata,by='row.names')
+phyla_label_sub=phyla_label[,c("Actinobacteria","Bacteroidetes","Firmicutes","Fusobacteria","Proteobacteria","Spirochaetes","Synergistetes","Tenericutes","Verrucomicrobia","Cdiff_EIA")]
+EIA_phyla=melt(phyla_label_sub)
+p<-ggplot(EIA_phyla,aes(x=variable,y=value+0.00001,color=Cdiff_EIA))+geom_point(pch = 21, position = position_jitterdodge())+scale_y_log10()+theme_linedraw()+
+  theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+stat_compare_means(aes(label=..p.adj..),method= "wilcox.test")+scale_colour_colorblind()
+```
+
+```{r genefamilies EC321}
+
+
+ko321_df=dcast(ko321,V1~V2, value.var='V3',fill=0.0)
+row.names(ko321_df)=ko321_df[,1]
+ko321_df=ko321_df[,-1]
+ko321_tot=merge(ko321_df,EIA_metadata,by="row.names",all.y = TRUE)
+ko321_final=ko321_tot[,1:52]
+ko321_final[is.na(ko321_final)]<-0
+row.names(ko321_final)=ko321_final[,1]
+ko321_final=ko321_final[,-1]
+fit=Maaslin2(ko321_final,EIA_metadata,'211128_ko321_EIA_final_200520',fixed_effects = c("Cdiff_EIA"))
+ko321_read=read.csv("211128_ko321_EIA_final_200520/significant_results.tsv",header = TRUE,sep = "\t")
+ko321_found=ko321_tot[,c(5,36,10,28,26,52,13,56)]
+k=melt(ko321_found)
+h<-ggplot(k,aes(x=factor(variable,level=ko321_read$feature[order(ko321_read$qval)]),y=value,colour=Cdiff_EIA))+geom_boxplot()+theme_linedraw()+scale_y_log10()+
+  theme(panel.grid.major.x=element_blank(),panel.grid.minor.x=element_blank(),panel.grid.major.y=element_blank(), axis.line=element_line(), panel.grid.minor.y=element_blank(), panel.border=element_blank(),axis.text.x = element_text(angle=45,hjust = 1))+scale_colour_colorblind()+scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+
+fig_width=6
+fig_height = 4
+ggsave('211201_ko321_abundance.eps', plot=h,
+       width=fig_width, height=fig_height,
+       units='in',device="eps")
+
+
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

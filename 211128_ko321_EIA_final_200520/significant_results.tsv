@@ -1,0 +1,9 @@
+feature	metadata	value	coef	stderr	N	N.not.0	pval	qval
+K02438: glycogen operon protein [EC:3.2.1.-]	Cdiff_EIA	positive	-2.47610874	0.635212161	102	65	0.000175576	0.0080765
+K01190: beta-galactosidase [EC:3.2.1.23]	Cdiff_EIA	positive	-1.493193119	0.535267104	102	98	0.006319374	0.139032061
+"K01218: mannan endo-1,4-beta-mannosidase [EC:3.2.1.78]"	Cdiff_EIA	positive	1.840793074	0.705898533	102	61	0.010509757	0.139032061
+K01222: 6-phospho-beta-glucosidase [EC:3.2.1.86]	Cdiff_EIA	positive	-2.020347779	0.790403089	102	66	0.012089744	0.139032061
+"K01182: oligo-1,6-glucosidase [EC:3.2.1.10]"	Cdiff_EIA	positive	-1.80949354	0.749214777	102	91	0.017543221	0.161397633
+K01193: beta-fructofuranosidase [EC:3.2.1.26]	Cdiff_EIA	positive	-1.363401048	0.609857423	102	97	0.027600892	0.185596357
+K07406: alpha-galactosidase [EC:3.2.1.22] 	Cdiff_EIA	positive	-1.505248235	0.676141781	102	53	0.028242924	0.185596357
+K18775: levanbiose-producing levanase [EC:3.2.1.64]	Cdiff_EIA	positive	-1.270862301	0.598672176	102	45	0.036239431	0.208376727

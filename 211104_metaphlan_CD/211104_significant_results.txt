@@ -1,0 +1,16 @@
+feature	metadata	value	coef	stderr	N	N.not.0	pval	qval
+Lachnospiraceae_bacterium_5_1_63FAA	Cdiff_EIA	positive	-1.588150293	0.348238915	70	9	2.19E-05	0.003306839
+Anaerostipes_hadrus	Cdiff_EIA	positive	-1.59098209	0.388390908	70	8	0.000113983	0.007833697
+Ruminococcus_sp_5_1_39BFAA	Cdiff_EIA	positive	-0.816516868	0.203834969	70	8	0.000155636	0.007833697
+Bilophila_unclassified	Cdiff_EIA	positive	-1.592293002	0.458938722	70	19	0.001004135	0.037906105
+Eubacterium_sp_3_1_31	Cdiff_EIA	positive	-2.790499673	0.866972246	70	17	0.001974738	0.059637088
+Dorea_formicigenerans	Cdiff_EIA	positive	-1.275294307	0.404662587	70	8	0.002415936	0.060801052
+Eubacterium_hallii	Cdiff_EIA	positive	-1.452960571	0.495133986	70	10	0.004552405	0.098201878
+Coprococcus_comes	Cdiff_EIA	positive	-1.273545351	0.448177309	70	8	0.005918929	0.111719783
+Ruminococcus_gnavus	Cdiff_EIA	positive	-3.205001176	1.213423405	70	44	0.010237956	0.171770149
+Fusobacterium_nucleatum	Cdiff_EIA	positive	1.953215835	0.777334445	70	14	0.014357332	0.204848673
+Lachnospiraceae_bacterium_6_1_63FAA	Cdiff_EIA	positive	-1.543350964	0.617895118	70	12	0.014922751	0.204848673
+Blautia_hydrogenotrophica	Cdiff_EIA	positive	-0.550454647	0.238098634	70	9	0.02387218	0.242271182
+Clostridium_asparagiforme	Cdiff_EIA	positive	-1.784408143	0.773247688	70	26	0.024066674	0.242271182
+Escherichia_coli	Cdiff_EIA	positive	-2.55123444	1.073564265	70	33	0.020303687	0.242271182
+Streptococcus_parasanguinis	Cdiff_EIA	positive	-2.381991437	1.01547856	70	50	0.021916011	0.242271182

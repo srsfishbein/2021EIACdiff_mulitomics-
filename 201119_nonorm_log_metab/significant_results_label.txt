@@ -1,0 +1,34 @@
+feature	metadata	value	coef	stderr	N	N.not.0	pval	qval	label	HMDB subclass
+Metabolite-1352	Cdiff_EIA	positive	-6.49671554	1.400601129	102	102	1.06E-05	0.004662963	4-hydroxyproline	"Amino acids, peptides, and analogs"
+Metabolite-2167	Cdiff_EIA	positive	-5.742531715	1.673407764	102	102	0.000873677	0.060496289	sorbitol*	Carbohydrates and carbohydrate conjugates
+Metabolite-1149	Cdiff_EIA	positive	-5.423354671	1.659193744	102	102	0.001481979	0.060496289	fructose (furanose)	Carbohydrates and carbohydrate conjugates
+Metabolite-2126	Cdiff_EIA	positive	-5.114009375	1.546215822	102	102	0.001308978	0.060496289	Metabolite-2126	Unidentified
+Metabolite-860	Cdiff_EIA	positive	-4.906770722	1.513225236	102	102	0.001610141	0.060496289	rhamnose*	Carbohydrates and carbohydrate conjugates
+Metabolite-1216	Cdiff_EIA	positive	-4.685830201	1.449170672	102	102	0.001657433	0.060496289	lactulose*	Carbohydrates and carbohydrate conjugates
+Metabolite-883	Cdiff_EIA	positive	-4.241376235	1.494279192	102	102	0.005491351	0.138215107	glucose*	Carbohydrates and carbohydrate conjugates
+Metabolite-1112	Cdiff_EIA	positive	-3.978794177	1.164779073	102	102	0.000920045	0.060496289	delta-2-cholenoic acid	"Bile acids, alcohols, and derivatives"
+Metabolite-918	Cdiff_EIA	positive	-3.634197786	1.22002356	102	102	0.003631855	0.099422036	talose*	Carbohydrates and carbohydrate conjugates
+Metabolite-2057	Cdiff_EIA	positive	-3.247932708	1.149009101	102	102	0.005680073	0.138215107	Metabolite-2057	Unidentified
+Metabolite-2141	Cdiff_EIA	positive	-3.13962538	1.129169813	102	102	0.006486829	0.142061557	myo-inositol*	Alcohols and polyols
+Metabolite-2264	Cdiff_EIA	positive	-2.937869342	1.126990662	102	102	0.010535727	0.170912908	lactulose_2*	Carbohydrates and carbohydrate conjugates
+Metabolite-926	Cdiff_EIA	positive	-2.89062612	0.937312112	102	102	0.002640927	0.083398542	Glyceryl glycoside	Carbohydrates and carbohydrate conjugates
+Metabolite-2366	Cdiff_EIA	positive	-2.776792172	1.088216959	102	102	0.012234073	0.184776693	Metabolite.2366	Unidentified
+Metabolite-2115	Cdiff_EIA	positive	-2.751025955	1.150976879	102	102	0.018713536	0.248379655	Metabolite.2115	Unidentified
+Metabolite-881	Cdiff_EIA	positive	-2.641987462	0.983228621	102	102	0.008443387	0.148520661	fructose (pyranose)*	Carbohydrates and carbohydrate conjugates
+Metabolite-1304	Cdiff_EIA	positive	2.396351345	0.89529879	102	102	0.008692917	0.148520661	Metabolite-1304	Unidentified
+Metabolite-2347	Cdiff_EIA	positive	2.578892348	1.050863381	102	102	0.015853482	0.216994531	Metabolite-2347	Unidentified
+Metabolite-229	Cdiff_EIA	positive	2.892064292	1.1758054	102	102	0.015623496	0.216994531	Metabolite-229	Unidentified
+Metabolite-2011	Cdiff_EIA	positive	3.5717634	1.294514549	102	102	0.006892822	0.143764576	Eicosatrienoic acid	Fatty acids and conjugates
+Metabolite-2450	Cdiff_EIA	positive	3.593333553	1.330800027	102	102	0.008140546	0.148520661	Metabolite-2450	Unidentified
+Metabolite-1826	Cdiff_EIA	positive	3.62484314	1.292350391	102	102	0.006049509	0.139457113	octadecenoic acid	Fatty acids and conjugates
+Metabolite-667	Cdiff_EIA	positive	3.851980335	1.142720911	102	102	0.001066054	0.060496289	Tyrosol	Tyrosols and derivatives
+Metabolite-585	Cdiff_EIA	positive	3.885694676	1.518852421	102	102	0.012017915	0.184776693	5-amino-valeric acid	Fatty acids and conjugates
+Metabolite-2076	Cdiff_EIA	positive	3.909072401	1.572514647	102	102	0.014581065	0.212883543	Metabolite-2076	Unidentified
+Metabolite-2462	Cdiff_EIA	positive	3.97000235	1.48547875	102	102	0.008791405	0.148520661	arachidonic acid	Fatty acids and conjugates
+Metabolite-49	Cdiff_EIA	positive	4.021307637	1.505249218	102	102	0.008816295	0.148520661	benzenepropanoic acid	Phenylpyruvic acid derivatives
+Metabolite-2380	Cdiff_EIA	positive	4.644053563	1.331483567	102	102	0.000725155	0.060496289	Metabolite-2380	Unidentified
+Metabolite-509	Cdiff_EIA	positive	4.796893519	1.580838123	102	102	0.003071638	0.089691824	para-cresol	Cresols
+Metabolite-136	Cdiff_EIA	positive	5.049444729	1.638948436	102	102	0.002665707	0.083398542	indole-3-acetic acid	Indolyl carboxylic acids and derivatives
+Metabolite-843	Cdiff_EIA	positive	5.053292544	1.528710577	102	102	0.00131676	0.060496289	oleic acid	Fatty acids and conjugates
+Metabolite-2103	Cdiff_EIA	positive	5.415810671	1.543774973	102	102	0.000677695	0.060496289	4-OH-phenylacetic acid	Benzene and substituted derivatives
+Metabolite-564	Cdiff_EIA	positive	6.551048492	1.733149288	102	102	0.000267018	0.058476842	4-methylpentanoic acid	Fatty acids and conjugates

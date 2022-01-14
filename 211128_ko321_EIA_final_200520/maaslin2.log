@@ -1,0 +1,94 @@
+2021-11-28 16:04:15 INFO::Writing function arguments to log file
+2021-11-28 16:04:15 DEBUG::Function arguments
+2021-11-28 16:04:15 DEBUG::Output folder: 211128_ko321_EIA_final_200520
+2021-11-28 16:04:15 DEBUG::Min Abundance: 0.000000
+2021-11-28 16:04:15 DEBUG::Min Prevalence: 0.100000
+2021-11-28 16:04:15 DEBUG::Normalization: TSS
+2021-11-28 16:04:15 DEBUG::Transform: LOG
+2021-11-28 16:04:15 DEBUG::Analysis method: LM
+2021-11-28 16:04:15 DEBUG::Max significance: 0.250000
+2021-11-28 16:04:15 DEBUG::Random effects:
+2021-11-28 16:04:15 DEBUG::Fixed effects: Cdiff_EIA
+2021-11-28 16:04:15 DEBUG::Correction method: BH
+2021-11-28 16:04:15 DEBUG::Standardize: TRUE
+2021-11-28 16:04:15 DEBUG::Cores: 1
+2021-11-28 16:04:15 INFO::Verifying options selected are valid
+2021-11-28 16:04:15 INFO::Determining format of input files
+2021-11-28 16:04:15 INFO::Input format is data samples as rows and metadata samples as rows
+2021-11-28 16:04:15 DEBUG::A total of 102 samples were found in both the data and metadata
+2021-11-28 16:04:15 DEBUG::Reordering data/metadata to use same sample ordering
+2021-11-28 16:04:15 INFO::Formula for fixed effects: expr ~  Cdiff_EIA
+2021-11-28 16:04:15 INFO::Filter data based on min abundance and min prevalence
+2021-11-28 16:04:15 INFO::Total samples in data: 102
+2021-11-28 16:04:15 INFO::Min samples required with min abundance for a feature not to be filtered: 10.200000
+2021-11-28 16:04:15 INFO::Total filtered features: 5
+2021-11-28 16:04:15 INFO::Filtered feature names from abundance and prevalence filtering: K01184..polygalacturonase..EC.3.2.1.15., K01236..maltooligosyltrehalose.trehalohydrolase..EC.3.2.1.141., K12111..evolved.beta.galactosidase.subunit.alpha..EC.3.2.1.23., K15922..alpha.glucosidase..EC.3.2.1.20., K18429..GDP.UDP.N.N..diacetylbacillosamine.2.epimerase..hydrolysing...EC.3.2.1.184.
+2021-11-28 16:04:15 INFO::Total filtered features with variance filtering: 0
+2021-11-28 16:04:15 INFO::Filtered feature names from variance filtering:
+2021-11-28 16:04:15 INFO::Running selected normalization method: TSS
+2021-11-28 16:04:15 INFO::Applying z-score to standardize continuous metadata
+2021-11-28 16:04:15 INFO::Running selected transform method: LOG
+2021-11-28 16:04:15 INFO::Running selected analysis method: LM
+2021-11-28 16:04:15 INFO::Fitting model to feature number 1, K01176..alpha.amylase..EC.3.2.1.1.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 2, K01178..glucoamylase..EC.3.2.1.3.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 3, K01179..endoglucanase..EC.3.2.1.4.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 4, K01182..oligo.1.6.glucosidase..EC.3.2.1.10.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 5, K01183..chitinase..EC.3.2.1.14.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 6, K01186..sialidase.1..EC.3.2.1.18.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 7, K01187..alpha.glucosidase..EC.3.2.1.20.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 8, K01190..beta.galactosidase..EC.3.2.1.23.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 9, K01191..alpha.mannosidase..EC.3.2.1.24.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 10, K01192..beta.mannosidase..EC.3.2.1.25.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 11, K01193..beta.fructofuranosidase..EC.3.2.1.26.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 12, K01194..alpha.alpha.trehalase..EC.3.2.1.28.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 13, K01195..beta.glucuronidase..EC.3.2.1.31.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 14, K01197..hyaluronoglucosaminidase..EC.3.2.1.35.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 15, K01198..xylan.1.4.beta.xylosidase..EC.3.2.1.37.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 16, K01201..glucosylceramidase..EC.3.2.1.45.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 17, K01205..alpha.N.acetylglucosaminidase..EC.3.2.1.50.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 18, K01206..alpha.L.fucosidase..EC.3.2.1.51.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 19, K01207..beta.N.acetylhexosaminidase..EC.3.2.1.52.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 20, K01208..cyclomaltodextrinase...maltogenic.alpha.amylase...neopullulanase..EC.3.2.1.54.3.2.1.133.3.2.1.135.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 21, K01209..alpha.N.arabinofuranosidase..EC.3.2.1.55.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 22, K01210..glucan.1.3.beta.glucosidase..EC.3.2.1.58.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 23, K01212..levanase..EC.3.2.1.65.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 24, K01218..mannan.endo.1.4.beta.mannosidase..EC.3.2.1.78.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 25, K01220..6.phospho.beta.galactosidase..EC.3.2.1.85.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 26, K01222..6.phospho.beta.glucosidase..EC.3.2.1.86.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 27, K01223..6.phospho.beta.glucosidase..EC.3.2.1.86.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 28, K01226..trehalose.6.phosphate.hydrolase..EC.3.2.1.93.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 29, K01227..mannosyl.glycoprotein.endo.beta.N.acetylglucosaminidase..EC.3.2.1.96.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 30, K01228..mannosyl.oligosaccharide.glucosidase..EC.3.2.1.106.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 31, K01230..mannosyl.oligosaccharide.alpha.1.2.mannosidase..EC.3.2.1.113.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 32, K01232..maltose.6..phosphate.glucosidase..EC.3.2.1.122.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 33, K02438..glycogen.operon.protein..EC.3.2.1...
+2021-11-28 16:04:15 INFO::Fitting model to feature number 34, K03332..fructan.beta.fructosidase..EC.3.2.1.80.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 35, K05349..beta.glucosidase..EC.3.2.1.21.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 36, K05350..beta.glucosidase..EC.3.2.1.21.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 37, K05546..alpha.1.3.glucosidase..EC.3.2.1.84.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 38, K07405..alpha.amylase..EC.3.2.1.1.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 39, K07406..alpha.galactosidase..EC.3.2.1.22.
+2021-11-28 16:04:15 INFO::Fitting model to feature number 40, K07407..alpha.galactosidase..EC.3.2.1.22.
+2021-11-28 16:04:16 INFO::Fitting model to feature number 41, K12308..beta.galactosidase..EC.3.2.1.23.
+2021-11-28 16:04:16 INFO::Fitting model to feature number 42, K12373..hexosaminidase..EC.3.2.1.52.
+2021-11-28 16:04:16 INFO::Fitting model to feature number 43, K13381..bifunctional.chitinase.lysozyme..EC.3.2.1.14.3.2.1.17.
+2021-11-28 16:04:16 INFO::Fitting model to feature number 44, K15921..arabinoxylan.arabinofuranohydrolase..EC.3.2.1.55.
+2021-11-28 16:04:16 INFO::Fitting model to feature number 45, K15923..alpha.L.fucosidase.2..EC.3.2.1.51.
+2021-11-28 16:04:16 INFO::Fitting model to feature number 46, K18775..levanbiose.producing.levanase..EC.3.2.1.64.
+2021-11-28 16:04:16 INFO::Counting total values for each feature
+2021-11-28 16:04:16 INFO::Writing residuals to file 211128_ko321_EIA_final_200520/residuals.rds
+2021-11-28 16:04:16 INFO::Writing fitted values to file 211128_ko321_EIA_final_200520/fitted.rds
+2021-11-28 16:04:16 INFO::Writing all results to file (ordered by increasing q-values): 211128_ko321_EIA_final_200520/all_results.tsv
+2021-11-28 16:04:16 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): 211128_ko321_EIA_final_200520/significant_results.tsv
+2021-11-28 16:04:16 INFO::Writing heatmap of significant results to file: 211128_ko321_EIA_final_200520/heatmap.pdf
+2021-11-28 16:04:16 INFO::Writing association plots (one for each significant association) to output folder: 211128_ko321_EIA_final_200520
+2021-11-28 16:04:16 INFO::Plotting associations from most to least significant, grouped by metadata
+2021-11-28 16:04:16 INFO::Plotting data for metadata number 1, Cdiff_EIA
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K02438..glycogen.operon.protein..EC.3.2.1...
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K01190..beta.galactosidase..EC.3.2.1.23.
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K01218..mannan.endo.1.4.beta.mannosidase..EC.3.2.1.78.
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K01222..6.phospho.beta.glucosidase..EC.3.2.1.86.
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K01182..oligo.1.6.glucosidase..EC.3.2.1.10.
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K01193..beta.fructofuranosidase..EC.3.2.1.26.
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K07406..alpha.galactosidase..EC.3.2.1.22.
+2021-11-28 16:04:16 INFO::Creating boxplot for categorical data, Cdiff_EIA vs K18775..levanbiose.producing.levanase..EC.3.2.1.64.
